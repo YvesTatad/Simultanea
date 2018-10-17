@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bluepanda"
+    android:oneshot="false">
+
+    <item
+        android:drawable="@drawable/cyclops1"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/cyclops2"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/cyclops3"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/cyclops4"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/cyclops5"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/cyclops6"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/cyclops7"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/cyclops7"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/cyclops8"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/cyclops9"
+        android:duration="200" />
+    <item
+        android:drawable="@drawable/cyclops10"
+        android:duration="200" />
+</animation-list>

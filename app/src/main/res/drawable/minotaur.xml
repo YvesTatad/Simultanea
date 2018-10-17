@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bluepanda" android:oneshot="false">
+    <item android:drawable="@drawable/minotaur1" android:duration="50" />
+    <item android:drawable="@drawable/minotaur2" android:duration="50" />
+    <item android:drawable="@drawable/minotaur3" android:duration="50" />
+    <item android:drawable="@drawable/minotaur4" android:duration="50" />
+    <item android:drawable="@drawable/minotaur5" android:duration="50" />
+    <item android:drawable="@drawable/minotaur6" android:duration="50" />
+    <item android:drawable="@drawable/minotaur7" android:duration="50" />
+    <item android:drawable="@drawable/minotaur8" android:duration="50" />
+    <item android:drawable="@drawable/minotaur9" android:duration="50" />
+    <item android:drawable="@drawable/minotaur10" android:duration="50" />
+    <item android:drawable="@drawable/minotaur11" android:duration="50" />
+    <item android:drawable="@drawable/minotaur12" android:duration="50" />
+    <item android:drawable="@drawable/minotaur13" android:duration="50" />
+    <item android:drawable="@drawable/minotaur14" android:duration="50" />
+    <item android:drawable="@drawable/minotaur15" android:duration="50" />
+    <item android:drawable="@drawable/minotaur16" android:duration="50" />
+    <item android:drawable="@drawable/minotaur17" android:duration="50" />
+    <item android:drawable="@drawable/minotaur18" android:duration="50" />
+    <item android:drawable="@drawable/minotaur19" android:duration="50" />
+    <item android:drawable="@drawable/minotaur20" android:duration="50" />
+    <item android:drawable="@drawable/minotaur21" android:duration="50" />
+    <item android:drawable="@drawable/minotaur22" android:duration="50" />
+    <item android:drawable="@drawable/minotaur23" android:duration="50" />
+    <item android:drawable="@drawable/minotaur24" android:duration="50" />
+    <item android:drawable="@drawable/minotaur25" android:duration="50" />
+    <item android:drawable="@drawable/minotaur26" android:duration="50" />
+    <item android:drawable="@drawable/minotaur27" android:duration="50" />
+    <item android:drawable="@drawable/minotaur28" android:duration="50" />
+    <item android:drawable="@drawable/minotaur29" android:duration="50" />
+    <item android:drawable="@drawable/minotaur30" android:duration="50" />
+    <item android:drawable="@drawable/minotaur31" android:duration="50" />
+    <item android:drawable="@drawable/minotaur32" android:duration="50" />
+    <item android:drawable="@drawable/minotaur33" android:duration="50" />
+    <item android:drawable="@drawable/minotaur34" android:duration="50" />
+    <item android:drawable="@drawable/minotaur35" android:duration="50" />
+    <item android:drawable="@drawable/minotaur36" android:duration="50" />
+    <item android:drawable="@drawable/minotaur37" android:duration="50" />
+    <item android:drawable="@drawable/minotaur38" android:duration="50" />
+    <item android:drawable="@drawable/minotaur39" android:duration="50" />
+    <item android:drawable="@drawable/minotaur40" android:duration="50" />
+
+</animation-list>
