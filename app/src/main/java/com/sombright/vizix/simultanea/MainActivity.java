@@ -21,16 +21,16 @@ public class MainActivity extends AppCompatActivity {
         mPrefs = new PreferencesProxy(this);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart");
-        if (playIntro) {
-            playIntro = false;
-            Intent intent = new Intent(this, IntroActivity.class);
-            startActivity(intent);
-        }
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        Log.d(TAG, "onStart");
+//        if (playIntro) {
+//            playIntro = false;
+//            Intent intent = new Intent(this, IntroActivity.class);
+//            startActivity(intent);
+//        }
+//    }
 
     @Override
     protected void onResume() {

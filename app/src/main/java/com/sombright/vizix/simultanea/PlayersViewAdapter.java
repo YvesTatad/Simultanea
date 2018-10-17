@@ -54,6 +54,7 @@ class PlayersViewAdapter extends ArrayAdapter<Player> implements View.OnClickLis
             holder.progressBar = convertView.findViewById(R.id.progressBarPlayerHealth);
             holder.progressBar.getProgressDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
             holder.imageButton.setTag(holder);
+            holder.imageButton.setBackground(null);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
