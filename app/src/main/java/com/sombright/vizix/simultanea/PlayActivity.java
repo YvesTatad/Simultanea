@@ -11,6 +11,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
@@ -67,7 +68,7 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
     private final static int STATE_WAITING_FOR_PLAYERS = 1;
     private final static int STATE_WAITING_FOR_QUESTION = 2;
     private final static int STATE_WAITING_FOR_ANSWER = 3;
-
+    private Integer countNum = 0;
     private final static int MESSAGE_DURATION_MS = 1500;
     private final static int LONG_MESSAGE_DURATION_MS = 3000;
     private final static int MAX_PLAYERS = 10;
@@ -314,6 +315,7 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
             quizPool = new QuizPool(this);
         }
         pickQuestion();
+        questionLifeSpan();
     }
 
     private void pickQuestion() {
@@ -379,11 +381,27 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
                     if (me.hasAnswered() && mPlayersViewAdapter.hasEveryoneAnswered()) {
                         pickQuestion();
                     }
+//                    questionLifeSpan();
                 }
             }, random.nextInt(10)*1000);
         }
     }
 
+    private void questionLifeSpan(){
+
+        new CountDownTimer(10000, 1000) { // 1000 = 1 sec
+
+            public void onTick(long millisUntilFinished) {
+            countNum = countNum+1;
+                Log.d("QuestionLifeSpanCounter", countNum.toString());
+            }
+
+            public void onFinish() {
+                pickQuestion();
+                countNum = 0;
+            }
+        }.start();
+    }
     /**
      * Functions to change the content of the bottom-right box
      */
@@ -396,20 +414,20 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
         buttonQuestion.setEnabled(false);
         buttonAnswers.setEnabled(true);
         buttonBattle.setEnabled(true);
-//        abortCombatMode();
+        abortCombatMode();
     }
 
-//    public void abortCombatMode() {
-//        if (me.getCombatMode() != Player.COMBAT_MODE_ATTACK) {
-//            mPlayersViewAdapter.setClickable(false);
-//            if (me.getPoints() != 0) {
-//                buttonAttack.setEnabled(true);
-//            }
-//            buttonDefend.setEnabled(true);
-//            buttonHeal.setEnabled(true);
-//            me.setCombatMode(Player.COMBAT_MODE_NONE);
-//        }
-//    }
+    public void abortCombatMode() {
+        if (me.getCombatMode() != Player.COMBAT_MODE_ATTACK) {
+            mPlayersViewAdapter.setClickable(false);
+            if (me.getPoints() != 0) {
+                buttonAttack.setEnabled(true);
+            }
+            buttonDefend.setEnabled(true);
+            buttonHeal.setEnabled(true);
+            me.setCombatMode(Player.COMBAT_MODE_NONE);
+        }
+    }
     public void showAnswers(View view) {
         Log.d(TAG, "showAnswers");
         questionText.setVisibility(View.INVISIBLE);
