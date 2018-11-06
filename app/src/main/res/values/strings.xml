@@ -1,4 +1,10 @@
 <resources>
+
+    <string name="intro_text_one">Welcome to the realm of Simultanea! This realm is divided into the three worlds: Xelvana, Yhondyrr, and Zhiole.</string>
+    <string name="intro_text_two"></string>
+    <string name="intro_text_three"></string>
+    <string name="intro_text_four"></string>
+
     <string name="app_name">Simultanea</string>
     <string name="preference_file_key">preferences</string>
 

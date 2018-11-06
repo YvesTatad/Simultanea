@@ -254,8 +254,12 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
         if (me.getPoints() == 0) {
             //TODO disable attack?
             buttonAttack.setEnabled(false);
-        } else {
+            buttonHeal.setEnabled(false);
+        } else if (me.getPoints() >= 1) {
             buttonAttack.setEnabled(true);
+        }
+        else if (me.getPoints() >= 2) {
+            buttonHeal.setEnabled(true);
         }
     }
 
@@ -385,6 +389,7 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
                 }
             }, random.nextInt(10)*1000);
         }
+        showQuestionAlt();
     }
 
     private void questionLifeSpan(){
@@ -417,14 +422,29 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
         abortCombatMode();
     }
 
+    public void showQuestionAlt() {
+        Log.d(TAG, "showQuestion");
+        answersLayout.setVisibility(View.INVISIBLE);
+        battleOptionsLayout.setVisibility(View.INVISIBLE);
+        questionText.setVisibility(View.VISIBLE);
+        questionText.bringToFront();
+        buttonQuestion.setEnabled(false);
+        buttonAnswers.setEnabled(true);
+        buttonBattle.setEnabled(true);
+        abortCombatMode();
+    }
+
     public void abortCombatMode() {
         if (me.getCombatMode() != Player.COMBAT_MODE_ATTACK) {
             mPlayersViewAdapter.setClickable(false);
-            if (me.getPoints() != 0) {
+            if (me.getPoints() >= 1) {
                 buttonAttack.setEnabled(true);
             }
+            if (me.getPoints() >= 2) {
+                buttonHeal.setEnabled(true);
+            }
             buttonDefend.setEnabled(true);
-            buttonHeal.setEnabled(true);
+//            buttonHeal.setEnabled(true);
             me.setCombatMode(Player.COMBAT_MODE_NONE);
         }
     }
@@ -454,8 +474,8 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
 
     public void buttonHealClicked(View view) {
         buttonHeal.setEnabled(false);
-        buttonAttack.setEnabled(false);
-        buttonDefend.setEnabled(false);
+//        buttonAttack.setEnabled(false);
+//        buttonDefend.setEnabled(false);
         me.setCombatMode(Player.COMBAT_MODE_HEAL);
         updateLocalPlayerUi();
         sendPlayerDetails();
@@ -469,8 +489,14 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
                 me.setCombatMode(Player.COMBAT_MODE_NONE);
                 updateLocalPlayerUi();
                 sendPlayerDetails();
-                buttonHeal.setEnabled(true);
-                if (me.getPoints() != 0) {
+                if (me.getPoints() >= 2) {
+                    buttonHeal.setEnabled(true);
+                }
+                else{
+                    buttonHeal.setEnabled(false);
+                }
+//                buttonHeal.setEnabled(true);
+                if (me.getPoints() >= 1) {
                     buttonAttack.setEnabled(true);
                 }
                 buttonDefend.setEnabled(true);
@@ -479,8 +505,8 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
     }
 
     public void buttonDefendClicked(View view) {
-        buttonHeal.setEnabled(false);
-        buttonAttack.setEnabled(false);
+//        buttonHeal.setEnabled(false);
+//        buttonAttack.setEnabled(false);
         buttonDefend.setEnabled(false);
         me.setCombatMode(Player.COMBAT_MODE_DEFEND);
         updateLocalPlayerUi();
@@ -495,9 +521,15 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
                 me.setCombatMode(Player.COMBAT_MODE_NONE);
                 updateLocalPlayerUi();
                 sendPlayerDetails();
-                buttonHeal.setEnabled(true);
-                if (me.getPoints() != 0) {
+//                buttonHeal.setEnabled(true);
+                if (me.getPoints() >= 1) {
                     buttonAttack.setEnabled(true);
+                }
+                if (me.getPoints() >= 2) {
+                    buttonHeal.setEnabled(true);
+                }
+                else{
+                    buttonHeal.setEnabled(false);
                 }
                 buttonDefend.setEnabled(true);
             }
@@ -931,9 +963,15 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
             msg.attackInfo.victimId = victim.getUniqueID();
             broadcastMessage(msg);
         }
-        buttonHeal.setEnabled(true);
-        if (me.getPoints() != 0) {
+//        buttonHeal.setEnabled(true);
+        if (me.getPoints() >= 1) {
             buttonAttack.setEnabled(true);
+        }
+        if (me.getPoints() >= 2) {
+            buttonHeal.setEnabled(true);
+        }
+        else{
+            buttonHeal.setEnabled(false);
         }
         buttonDefend.setEnabled(true);
     }

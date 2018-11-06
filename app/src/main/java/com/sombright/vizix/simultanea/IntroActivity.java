@@ -1,10 +1,12 @@
 package com.sombright.vizix.simultanea;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 public class IntroActivity extends AppCompatActivity /*implements MediaPlayer.OnCompletionListener*/ {
@@ -23,6 +25,14 @@ public class IntroActivity extends AppCompatActivity /*implements MediaPlayer.On
         setContentView(R.layout.activity_intro);
         scrollView = findViewById(R.id.ScrollFrame);
         scrollView.setImageResource(R.drawable.scroll_1_2);
+        scrollView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(IntroActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivityIfNeeded(intent, 0);
+            }
+        });
 //        videoCounter = 0;
     }
 
@@ -43,9 +53,9 @@ public class IntroActivity extends AppCompatActivity /*implements MediaPlayer.On
 //    @Override
 //    protected void onResume() {
 //        Log.d(TAG, "onResume");
-//        if (!scrollView.isPlaying()) {
-//            scrollView.resume();
+//        if (scrollView.isPlaying()) {
 //        }
+//        else scrollView.resume();
 //        super.onResume();
 //    }
 //
@@ -65,7 +75,7 @@ public class IntroActivity extends AppCompatActivity /*implements MediaPlayer.On
 //
 //    private void startNextVideo() {
 //        int currentVideo = videoSequence[videoCounter];
-//        String videoPath = "android.resource://" + getPackageName() + "/" + currentVideo;
+//        String videoPath = "android.resource://" +  getPackageName() + "/" + currentVideo;
 //        Uri uri = Uri.parse(videoPath);
 //        scrollView.setVideoURI(uri);
 //        scrollView.setOnCompletionListener(this);
@@ -73,7 +83,7 @@ public class IntroActivity extends AppCompatActivity /*implements MediaPlayer.On
 //    }
 //
 //    @Override
-//    public void onCompletion(MediaPlayer mp) {
+//    public void onCompletion(/*MediaPlayer mp*/) {
 //        videoCounter++;
 //        if (videoCounter < videoSequence.length) {
 //            startNextVideo();
