@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/skeleton_attack" android:oneshot="false">
+    <item android:drawable="@drawable/skeleton_attack00" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack01" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack02" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack03" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack04" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack05" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack06" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack07" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack08" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack09" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack10" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack11" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack12" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack13" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack14" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack15" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack16" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack17" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack18" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack19" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack20" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack21" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack22" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack23" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack24" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack25" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_attack26" android:duration="200" />
+
+</animation-list>

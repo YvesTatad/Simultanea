@@ -53,14 +53,14 @@ class CharacterPool {
                     R.drawable.war_death, R.drawable.war_death7,
                     R.drawable.war_attack,
                     R.string.RedPanda_Lore,
-                    100, 5, 30, 13,true),
+                    100, 5, 30, 13,true)/*,
             new Character(R.string.siren_name,
                     R.drawable.siren,
                     R.drawable.war_hurt,
                     R.drawable.war_death, R.drawable.war_death7,
                     R.drawable.war_attack,
                     R.string.RedPanda_Lore,
-                    100, 5, 30, 13, false)
+                    100, 5, 30, 13, false)*/
     };
     private static final int DEFAULT_CHARACTER_INDEX = 0;
     static Character getDefaultCharacter() {

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/slime_death" android:oneshot="false">
+    <item android:drawable="@drawable/slime_death00" android:duration="200" />
+    <item android:drawable="@drawable/slime_death01" android:duration="200" />
+    <item android:drawable="@drawable/slime_death02" android:duration="200" />
+    <item android:drawable="@drawable/slime_death03" android:duration="200" />
+    <item android:drawable="@drawable/slime_death04" android:duration="200" />
+    <item android:drawable="@drawable/slime_death05" android:duration="200" />
+    <item android:drawable="@drawable/slime_death06" android:duration="200" />
+    <item android:drawable="@drawable/slime_death07" android:duration="200" />
+    <item android:drawable="@drawable/slime_death08" android:duration="200" />
+    <item android:drawable="@drawable/slime_death09" android:duration="200" />
+    <item android:drawable="@drawable/slime_death10" android:duration="200" />
+    <item android:drawable="@drawable/slime_death11" android:duration="200" />
+    <item android:drawable="@drawable/slime_death12" android:duration="200" />
+    <item android:drawable="@drawable/slime_death13" android:duration="200" />
+    <item android:drawable="@drawable/slime_death14" android:duration="200" />
+    <item android:drawable="@drawable/slime_death15" android:duration="200" />
+    <item android:drawable="@drawable/slime_death16" android:duration="200" />
+    <item android:drawable="@drawable/slime_death17" android:duration="200" />
+    <item android:drawable="@drawable/slime_death18" android:duration="200" />
+    <item android:drawable="@drawable/slime_death19" android:duration="200" />
+    <item android:drawable="@drawable/slime_death20" android:duration="200" />
+    <item android:drawable="@drawable/slime_death21" android:duration="200" />
+    <item android:drawable="@drawable/slime_death22" android:duration="200" />
+
+</animation-list>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/goblin_attack" android:oneshot="false">
+    <item android:drawable="@drawable/goblin_attack00" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack01" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack02" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack03" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack04" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack05" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack06" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack07" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack08" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack09" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack10" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack11" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack12" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack13" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack14" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack15" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack16" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack17" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack18" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack19" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack20" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack21" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack22" android:duration="200" />
+    <item android:drawable="@drawable/goblin_attack23" android:duration="200" />
+
+</animation-list>

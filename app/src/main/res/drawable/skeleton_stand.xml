@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/skeleton_stand" android:oneshot="false">
+    <item android:drawable="@drawable/skeleton_stand00" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_stand01" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_stand02" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_stand03" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_stand04" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_stand05" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_stand06" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_stand07" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_stand08" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_stand09" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_stand10" android:duration="200" />
+    <item android:drawable="@drawable/skeleton_stand11" android:duration="200" />
+</animation-list>
