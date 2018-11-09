@@ -10,6 +10,7 @@ import com.sombright.vizix.simultanea.R;
 
 public class MobSelectionActivity {
 
+    // need help with the redlines
     private MediaPlayer mediaPlayer;
     CharacterSelectionAdapter mAdapter;
     private GridView gridview;
