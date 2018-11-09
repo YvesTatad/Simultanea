@@ -31,7 +31,8 @@
         <activity android:name=".TaskMasterActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".PlayActivity"></activity>
+        <activity android:name=".PlayActivity" />
+        <activity android:name=".MobCharacters.MobSelectionActivity"></activity>
     </application>
 
 </manifest>

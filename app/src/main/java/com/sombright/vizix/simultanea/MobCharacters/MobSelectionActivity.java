@@ -1,47 +1,28 @@
 package com.sombright.vizix.simultanea.MobCharacters;
 
-
-import android.media.MediaPlayer;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.GridView;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 
-import com.sombright.vizix.simultanea.CharacterSelectionActivity;
+import com.sombright.vizix.simultanea.CharacterDetailsActivity;
 import com.sombright.vizix.simultanea.R;
 
-public class MobSelectionActivity {
-
-    // need help with the redlines
-    private MediaPlayer mediaPlayer;
-    CharacterSelectionAdapter mAdapter;
-    private GridView gridview;
+public class MobSelectionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_character_selection);
+        setContentView(R.layout.activity_mob_selection);
 
         // Instead of manually filling the grid with character icons, we connect
         // the GridView to an "adapter" whose job is to prepare each character
         // icon in a uniform way.
         gridview = findViewById(R.id.characterSelectionGridView);
-        mAdapter = new CharacterSelectionAdapter(this, R.layout.character_selection_example_item, CharacterPool.charactersList);
+        mAdapter = new MobSelectionActivity(this, R.layout.character_selection_example_item, MobPool.charactersList);
         gridview.setAdapter(mAdapter);
         gridview.setOnItemClickListener(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mediaPlayer = MediaPlayer.create(CharacterSelectionActivity.this, R.raw.fight1);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.start();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mediaPlayer.stop();
-        mediaPlayer.release();
     }
 
     // Called when the player clicks an item in the grid view (position)
@@ -53,6 +34,4 @@ public class MobSelectionActivity {
         intent.putExtra("index", position);
         startActivity(intent);
     }
-}
-
 }
