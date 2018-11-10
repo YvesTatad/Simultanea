@@ -8,7 +8,7 @@ import android.widget.ListAdapter;
 import com.sombright.vizix.simultanea.R;
 
 class MobPool implements ListAdapter {
-    static final com.sombright.vizix.simultanea.MobCharacters.MobModel[] mobList = {
+    static final MobModel[] mobList = {
             new com.sombright.vizix.simultanea.MobCharacters.MobModel(
                     R.string.skeleton_name,
                     R.drawable.skeleton_stand,
