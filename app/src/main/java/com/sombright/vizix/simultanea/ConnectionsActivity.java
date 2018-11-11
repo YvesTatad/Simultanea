@@ -558,6 +558,8 @@ public abstract class ConnectionsActivity extends AppCompatActivity {
     protected static class Endpoint {
         @NonNull private final String id;
         @NonNull private final String name;
+        @NonNull public String getId;
+
 
         private Endpoint(@NonNull String id, @NonNull String name) {
             this.id = id;

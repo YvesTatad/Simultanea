@@ -19,7 +19,7 @@ import com.sombright.vizix.simultanea.Player;
 import com.sombright.vizix.simultanea.R;
 
 
-public class MobDisplayActivity extends ArrayAdapter<Player> implements View.OnClickListener {
+public class MobDisplayActivity  extends ArrayAdapter<Player> implements View.OnClickListener {
 
 
     private static final String TAG = "PlayersViewAdapter";
@@ -136,16 +136,7 @@ public class MobDisplayActivity extends ArrayAdapter<Player> implements View.OnC
         return null;
     }
 
-    Player getPlayerByEndpointId(String endpointId) {
-        for (int i = 0; i < getCount(); i++) {
-            final Player player = getItem(i);
-            if (player == null) continue;
-            if (player.getEndpoint().getId().equals(endpointId)){
-                return player;
-            }
-        }
-        return null;
-    }
+
 
     Player getPlayerByName(String name) {
         for (int i = 0; i < getCount(); i++) {
