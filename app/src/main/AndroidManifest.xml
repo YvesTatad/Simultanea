@@ -33,6 +33,7 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".PlayActivity" />
         <activity android:name=".MobCharacters.MobSelectionActivity"></activity>
+        <activity android:name=".MobCharacters.MobDetailsActivity"></activity>
     </application>
 
 </manifest>

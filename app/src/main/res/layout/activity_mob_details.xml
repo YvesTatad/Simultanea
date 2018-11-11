@@ -6,10 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/battle"
-    tools:context="com.sombright.vizix.simultanea.CharacterDetailsActivity">
+    tools:context="com.sombright.vizix.simultanea.MobCharacters.MobDetailsActivity">
 
     <ImageView
-        android:id="@+id/imageViewCharacter"
+        android:id="@+id/imageViewMob"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:layout_marginEnd="8dp"
@@ -17,14 +17,14 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewCharacterName"
+        app:layout_constraintBottom_toTopOf="@+id/textViewMobName"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/duel" />
 
     <TextView
-        android:id="@+id/textViewCharacterName"
+        android:id="@+id/textViewMobName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -34,13 +34,13 @@
         android:background="#cc000000"
         android:padding="1dp"
         android:scrollbars="vertical"
-        android:text="Character Name"
+        android:text="Mob Name"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tabHostStatsLore"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewCharacter" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewMob" />
 
     <TabHost
         android:id="@+id/tabHostStatsLore"
@@ -53,10 +53,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:background="#cc000000"
-        app:layout_constraintBottom_toTopOf="@+id/buttonPick"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCharacterName">
+        app:layout_constraintTop_toBottomOf="@+id/textViewMobName">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -107,21 +107,21 @@
         </LinearLayout>
     </TabHost>
 
-    <Button
-        android:id="@+id/buttonPick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:onClick="onClickPick"
-        android:text="Pick"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabHostStatsLore" />
+    <!--<Button-->
+        <!--android:id="@+id/buttonPick"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="16dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginLeft="8dp"-->
+        <!--android:layout_marginRight="8dp"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--android:onClick="onClickPick"-->
+        <!--android:text="Pick"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--app:layout_constraintRight_toRightOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/tabHostStatsLore" />-->
 
 </android.support.constraint.ConstraintLayout>
