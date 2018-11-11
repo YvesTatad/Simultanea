@@ -2,7 +2,7 @@ package com.sombright.vizix.simultanea;
 
 import android.content.Context;
 
-class Character extends CharacterPool {
+public class Character extends CharacterPool {
     private final int mStringResourceName;
     private final int mImageResource;
     private final int mImageResourceHurt;
@@ -57,7 +57,7 @@ class Character extends CharacterPool {
     int getDeathAnimationId() {
         return mDeathAnimationId;
     }
-    int getDeadImageId() {
+   public int getDeadImageId() {
         return mDeadImageId;
     }
     int getImageResourceAttack() {

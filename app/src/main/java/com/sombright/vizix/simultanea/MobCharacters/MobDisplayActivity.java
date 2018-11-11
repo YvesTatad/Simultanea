@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.sombright.vizix.simultanea.Player;
 import com.sombright.vizix.simultanea.R;
 
+
 public class MobDisplayActivity extends ArrayAdapter<Player> implements View.OnClickListener {
 
 
@@ -60,24 +61,19 @@ public class MobDisplayActivity extends ArrayAdapter<Player> implements View.OnC
             holder.imageButton.setTag(holder);
             holder.imageButton.setBackground(null);
             convertView.setTag(holder);
-        } else {
-            holder = (MobDisplayActivity.ViewHolder) convertView.getTag();
-        }
+        } else holder = (ViewHolder) convertView.getTag();
 
         final Player player = getItem(position);
         boolean dead = player.getHealth() == 0;
         if (dead) {
             com.sombright.vizix.simultanea.Character character = player.getCharacter();
-            if (character == null) {
-                holder.imageButton.setImageResource(R.mipmap.ic_launcher);
-            } else {
-                holder.imageButton.setImageResource(character.getDeadImageId());
-            }
+            if (character == null) holder.imageButton.setImageResource(R.mipmap.ic_launcher);
+            else holder.imageButton.setImageResource(character.getDeadImageId());
         } else {
             AnimationDrawable animationDrawable = player.getAnimation();
-            if (animationDrawable == null) {
+            if (animationDrawable == null)
                 holder.imageButton.setImageResource(R.mipmap.ic_launcher);
-            } else {
+            else {
                 holder.imageButton.setImageDrawable(animationDrawable);
                 animationDrawable.start();
             }
@@ -94,8 +90,7 @@ public class MobDisplayActivity extends ArrayAdapter<Player> implements View.OnC
     public void setAnswered(boolean answered) {
         for (int i = 0; i < getCount(); i++) {
             final Player player = getItem(i);
-            if (player == null)
-                continue;
+            if (player == null) continue;
             player.setAnswered(false);
         }
     }
@@ -103,11 +98,8 @@ public class MobDisplayActivity extends ArrayAdapter<Player> implements View.OnC
     public boolean hasEveryoneAnswered() {
         for (int i = 0; i < getCount(); i++) {
             final Player player = getItem(i);
-            if (player == null)
-                continue;
-            if (!player.hasAnswered()) {
-                return false;
-            }
+            if (player == null) continue;
+            if (!player.hasAnswered()) return false;
         }
         return true;
     }
@@ -138,10 +130,8 @@ public class MobDisplayActivity extends ArrayAdapter<Player> implements View.OnC
     Player getPlayer(String uniqueId) {
         for (int i = 0; i < getCount(); i++) {
             final Player player = getItem(i);
-            if (player == null)
-                continue;
-            if (player.getUniqueID().equals(uniqueId))
-                return player;
+            if (player == null) continue;
+            if (player.getUniqueID().equals(uniqueId)) return player;
         }
         return null;
     }
@@ -149,10 +139,10 @@ public class MobDisplayActivity extends ArrayAdapter<Player> implements View.OnC
     Player getPlayerByEndpointId(String endpointId) {
         for (int i = 0; i < getCount(); i++) {
             final Player player = getItem(i);
-            if (player == null)
-                continue;
-            if (player.getEndpoint().getId().equals(endpointId))
+            if (player == null) continue;
+            if (player.getEndpoint().getId().equals(endpointId)){
                 return player;
+            }
         }
         return null;
     }
@@ -160,10 +150,8 @@ public class MobDisplayActivity extends ArrayAdapter<Player> implements View.OnC
     Player getPlayerByName(String name) {
         for (int i = 0; i < getCount(); i++) {
             final Player player = getItem(i);
-            if (player == null)
-                continue;
-            if (player.getName().equals(name))
-                return player;
+            if (player == null) continue;
+            if (player.getName().equals(name)) return player;
         }
         return null;
     }
