@@ -43,7 +43,7 @@ public class MobDetailsActivity extends AppCompatActivity {
         textViewCharacterName.setText(mob.getStringResourceName());
         TextView textViewStats = findViewById(R.id.textViewStats);
         String mob_msg_stats = String.format(getString(R.string.mob_msg_stats),
-//                mob.getHeal(), mob.getRecovery(),
+                mob.getHeal(), mob.getRecovery(),
                 mob.getAttack(), mob.getDefense());
         textViewStats.setText(mob_msg_stats);
         TextView textViewLore = findViewById(R.id.textViewLore);

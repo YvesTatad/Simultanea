@@ -1,9 +1,10 @@
-package com.sombright.vizix.simultanea.MobCharacters;
+package com.sombright.vizix.simultanea.MobCharacters.SPBattleLevels;
 
+import com.sombright.vizix.simultanea.MobCharacters.MobModel;
 import com.sombright.vizix.simultanea.R;
 
-class MobPool{
-    static final MobModel[] mobList = {
+public class LevelTwo{
+    static final MobModel[] mobListLevelTwo = {
             new com.sombright.vizix.simultanea.MobCharacters.MobModel(
                     R.string.goblin_name,
                     R.drawable.goblin_stand,
@@ -19,18 +20,10 @@ class MobPool{
                     R.drawable.bluepanda_death, R.drawable.bluepanda_death21,
                     R.drawable.skeleton_attack,
                     R.string.Skeleton_Description,
-                    100, 5,30, 10),
-            new com.sombright.vizix.simultanea.MobCharacters.MobModel(
-                    R.string.slime_name,
-                    R.drawable.slime_stand,
-                    R.drawable.bluepanda_hurt,
-                    R.drawable.slime_death, R.drawable.slime_death22,
-                    R.drawable.bluepanda_attack,
-                    R.string.Slime_Description,
                     100, 5,30, 10)
-            };
+    };
     private static final int DEFAULT_MOB_INDEX = 0;
-    static MobModel getDefaultMob() {
-        return mobList[DEFAULT_MOB_INDEX];
+    static com.sombright.vizix.simultanea.MobCharacters.MobModel getDefaultMobLevelTwo() {
+        return mobListLevelTwo[DEFAULT_MOB_INDEX];
     }
 }

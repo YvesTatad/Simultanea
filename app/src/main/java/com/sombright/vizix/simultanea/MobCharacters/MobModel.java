@@ -2,7 +2,7 @@ package com.sombright.vizix.simultanea.MobCharacters;
 
 import android.content.Context;
 
-class MobModel {
+public class MobModel {
     private final int mStringResourceName;
     private final int mImageResource;
     private final int mImageResourceHurt;
@@ -10,16 +10,16 @@ class MobModel {
     private final int mDeadImageId;
     private final int mImageResourceAttack;
     private final int mStringResourceLore;
-    private final int /*mHeal, mRecovery, */mAttack, mDefense;
+    private final int mHeal, mRecovery, mAttack, mDefense;
 //    private boolean mPlayable;
 
-    MobModel(int strResName,
-              int imgRes,
-              int imgResHurt,
-              int deathAnimationId, int deadImageId,
-              int imgResAttack,
-              int strResLore,
-              /*int heal, int recovery,*/ int attack, int defense/*, boolean playable*/) {
+    public MobModel(int strResName,
+                    int imgRes,
+                    int imgResHurt,
+                    int deathAnimationId, int deadImageId,
+                    int imgResAttack,
+                    int strResLore,
+                    int heal, int recovery, int attack, int defense/*, boolean playable*/) {
         mStringResourceName = strResName;
         mImageResource = imgRes;
         mImageResourceHurt = imgResHurt;
@@ -27,14 +27,14 @@ class MobModel {
         mDeadImageId = deadImageId;
         mImageResourceAttack = imgResAttack;
         mStringResourceLore = strResLore;
-//        mHeal = heal;
-//        mRecovery = recovery;
+        mHeal = heal;
+        mRecovery = recovery;
         mAttack = attack;
         mDefense = defense;
 //        mPlayable = playable;
 
     }
-    // comment hahahaha
+
     int getStringResourceName() {
         return mStringResourceName;
     }
@@ -66,12 +66,12 @@ class MobModel {
     int getStringResourceLore() {
         return mStringResourceLore;
     }
-//    int getHeal() {
-//        return mHeal;
-//    }
-//    int getRecovery() {
-//        return mRecovery;
-//}
+    int getHeal() {
+        return mHeal;
+    }
+    int getRecovery() {
+        return mRecovery;
+}
     int getAttack() {
         return mAttack;
     }
