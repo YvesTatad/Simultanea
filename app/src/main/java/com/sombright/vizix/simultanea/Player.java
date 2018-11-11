@@ -29,7 +29,7 @@ public class Player {
     private int mPoints;
     private int mCombatMode;
 
-    public Player(Context context) {
+    Player(Context context) {
         mContext = context;
         mUniqueID = UUID.randomUUID().toString();
         mHealth = 100;
@@ -38,7 +38,7 @@ public class Player {
         mCombatMode = COMBAT_MODE_NONE;
     }
 
-    public Endpoint getEndpoint() {
+     Endpoint getEndpoint() {
         return mEndpoint;
     }
 
@@ -46,7 +46,7 @@ public class Player {
         mEndpoint = endpoint;
     }
 
-    public String getUniqueID() {
+     String getUniqueID() {
         return mUniqueID;
     }
 
