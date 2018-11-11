@@ -83,7 +83,7 @@ public class Player {
         return mCharacter.getName(mContext);
     }
 
-    int getHealth() {
+    public int getHealth() {
         return mHealth;
     }
 

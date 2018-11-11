@@ -2,7 +2,7 @@ package com.sombright.vizix.simultanea;
 
 import android.content.Context;
 
-class Character {
+class Character extends CharacterPool {
     private final int mStringResourceName;
     private final int mImageResource;
     private final int mImageResourceHurt;
@@ -79,4 +79,5 @@ class Character {
         return mDefense;
     }
     boolean isPlayable() { return mPlayable; }
-}
+
+    }
