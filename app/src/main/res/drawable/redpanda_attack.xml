@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/goblin_stand" android:oneshot="false">
+    <item android:drawable="@drawable/redpanda_attack01" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack02" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack03" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack04" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack05" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack06" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack07" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack08" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack09" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack10" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack11" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack12" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack13" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack14" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack15" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack16" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack17" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack18" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack19" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack20" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack21" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack22" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack23" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack24" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack25" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack26" android:duration="200" />
+    <item android:drawable="@drawable/redpanda_attack27" android:duration="200" />
+
+</animation-list>

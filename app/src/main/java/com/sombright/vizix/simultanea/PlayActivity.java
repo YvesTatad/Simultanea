@@ -213,6 +213,7 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
         super.onResume();
         Log.d(TAG, "onResume");
         mMusic.start();
+
         startDiscovering();
     }
 
@@ -279,6 +280,7 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
     public void onClickStartGame(View view) {
         Log.d(TAG, "onClickStartGame");
         stopDiscovering();
+
         buttonStartGame.setVisibility(View.GONE);
         singlePlayerMode = true;
         for (int i = 0; i < 5; i++) {

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pump_hurt" android:oneshot="false">
+    <item android:drawable="@drawable/skeleton_hurt0" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_hurt1" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_hurt2" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_hurt3" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_hurt4" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_hurt5" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_hurt6" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_hurt7" android:duration="100" />
+
+</animation-list>

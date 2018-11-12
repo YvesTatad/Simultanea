@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pump_hurt" android:oneshot="false">
+    <item android:drawable="@drawable/skeleton_death00" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_death01" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_death02" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_death03" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_death04" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_death05" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_death06" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_death07" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_death08" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_death09" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_death10" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_death11" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_death12" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_death13" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_death14" android:duration="100" />
+    <item android:drawable="@drawable/skeleton_death15" android:duration="100" />
+
+</animation-list>

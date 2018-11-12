@@ -111,8 +111,7 @@ public class Player {
         return mHealth;
     }
 
-    void setHealth(int health) {
-        mHealth = health;
+    void setHealth(int health) { mHealth = health;
     }
 
     public boolean hasAnswered() {

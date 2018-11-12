@@ -50,7 +50,7 @@ class PlayersViewAdapter extends ArrayAdapter<Player> implements View.OnClickLis
             holder.imageButton.setScaleType(ImageView.ScaleType.FIT_START);
             holder.imageButton.setAdjustViewBounds(true);
             holder.imageButton.setOnClickListener(this);
-            holder.textView = convertView.findViewById(R.id.textViewPlayerName);
+            holder.textView = convertView.findViewById(R.id.textViewMobName);
             holder.progressBar = convertView.findViewById(R.id.progressBarPlayerHealth);
             holder.progressBar.getProgressDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
             holder.imageButton.setTag(holder);

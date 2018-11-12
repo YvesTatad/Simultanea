@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/goblin_stand" android:oneshot="false">
+    <item android:drawable="@drawable/goblin_death01" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death02" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death03" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death04" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death05" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death06" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death07" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death08" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death09" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death10" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death11" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death12" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death13" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death14" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death15" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death16" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death17" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death18" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death19" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death20" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death21" android:duration="200" />
+    <item android:drawable="@drawable/goblin_death22" android:duration="200" />
+</animation-list>

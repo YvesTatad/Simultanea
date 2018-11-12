@@ -11,6 +11,8 @@ public class ProfileActivity extends AppCompatActivity {
     private String profilePlayerName;
     private PreferencesProxy mPrefs;
     private TextView profileNameTextView;
+    private String Points;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +22,9 @@ public class ProfileActivity extends AppCompatActivity {
         profilePlayerName = mPrefs.getMultiPlayerAlias();
         profileNameTextView = findViewById(R.id.profileNameText);
         profileNameTextView.setText(profilePlayerName);
+
+
+
+
     }
 }

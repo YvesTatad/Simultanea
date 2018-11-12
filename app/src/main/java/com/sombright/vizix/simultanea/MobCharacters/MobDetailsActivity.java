@@ -49,6 +49,7 @@ public class MobDetailsActivity extends AppCompatActivity {
         TextView textViewLore = findViewById(R.id.textViewLore);
         textViewLore.setText(mob.getStringResourceLore());
         textViewLore.setMovementMethod(new ScrollingMovementMethod());
+
 //        Button pickButton = findViewById(R.id.buttonPick);
 //        pickButton.setEnabled(character.isPlayable());
 //        if (!character.isPlayable()){
