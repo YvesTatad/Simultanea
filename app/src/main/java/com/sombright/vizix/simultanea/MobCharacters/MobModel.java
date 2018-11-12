@@ -33,6 +33,7 @@ public class MobModel {
         mDefense = defense;
         mPlayable = playable;
 
+
     }
 
     int getStringResourceName() {
