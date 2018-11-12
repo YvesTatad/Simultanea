@@ -559,6 +559,7 @@ public abstract class ConnectionsActivity extends AppCompatActivity {
         @NonNull private final String id;
         @NonNull private final String name;
 
+
         private Endpoint(@NonNull String id, @NonNull String name) {
             this.id = id;
             this.name = name;

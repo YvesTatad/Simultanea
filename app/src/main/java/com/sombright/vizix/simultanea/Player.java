@@ -41,7 +41,7 @@ public class Player {
         mCombatMode = COMBAT_MODE_NONE;
     }
 
-     Endpoint getEndpoint() {
+    Endpoint getEndpoint() {
         return mEndpoint;
     }
 
@@ -49,7 +49,7 @@ public class Player {
         mEndpoint = endpoint;
     }
 
-     String getUniqueID() {
+    String getUniqueID() {
         return mUniqueID;
     }
 
