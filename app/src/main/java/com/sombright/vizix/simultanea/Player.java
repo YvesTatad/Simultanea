@@ -131,7 +131,9 @@ public class Player {
     }
 
     public AnimationDrawable getAnimation() {
-        if (mAnimation == null && mCharacter != null) {
+        if (mAnimation == null && mMob != null) {
+            mAnimation = (AnimationDrawable) ContextCompat.getDrawable(mContext, mMob.getImageResource());
+        } else if (mAnimation == null && mCharacter != null) {
             mAnimation = (AnimationDrawable) ContextCompat.getDrawable(mContext, mCharacter.getImageResource());
         }
         return mAnimation;
@@ -194,7 +196,8 @@ public class Player {
     void setPlayerDetails(GameMessage msg) {
         setUniqueID(msg.playerInfo.uniqueId);
         setName(msg.playerInfo.name);
-        setCharacter(msg.playerInfo.character);
+        setCharacter("invalid");
+        setMob(msg.playerInfo.character);
         setHealth(msg.playerInfo.health);
         setPoints(msg.playerInfo.points);
         setCombatMode(msg.playerInfo.battle);

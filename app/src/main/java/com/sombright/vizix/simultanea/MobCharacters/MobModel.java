@@ -48,7 +48,7 @@ public class MobModel {
         return getMobName(context, this);
     }
 
-    int getImageResource() {
+    public int getImageResource() {
         return mImageResource;
     }
     int getImageResourceHurt() {
