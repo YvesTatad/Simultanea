@@ -810,10 +810,10 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
             if (player == null) {
                 Log.d(TAG, "Adding player with UUID=" + msg.playerInfo.uniqueId);
                 player = new Player(this);
-                player.setPlayerDetails(msg);
+                player.setMobDetails(msg);
                 mPlayersViewAdapter.add(player);
             } else {
-                player.setPlayerDetails(msg);
+                player.setMobDetails(msg);
                 mPlayersViewAdapter.notifyDataSetChanged();
             }
         }

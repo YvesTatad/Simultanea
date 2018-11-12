@@ -2,6 +2,7 @@ package com.sombright.vizix.simultanea;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
@@ -57,8 +58,20 @@ public class Player {
         mUniqueID = uniqueID;
     }
 
-    public String getName() {
-        return mName;
+    public @NonNull String getName() {
+        String name = mName;
+        if (name != null) {
+            return name;
+        }
+        name = getCharacterName();
+        if (name != null) {
+            return name;
+        }
+        name = getMobName();
+        if (name != null) {
+            return name;
+        }
+        return "unnamed";
     }
 
     public void setName(String name) {
@@ -196,7 +209,17 @@ public class Player {
     void setPlayerDetails(GameMessage msg) {
         setUniqueID(msg.playerInfo.uniqueId);
         setName(msg.playerInfo.name);
-        setCharacter("invalid");
+        setCharacter(msg.playerInfo.character);
+        setMob(msg.playerInfo.character);
+        setHealth(msg.playerInfo.health);
+        setPoints(msg.playerInfo.points);
+        setCombatMode(msg.playerInfo.battle);
+    }
+
+    void setMobDetails(GameMessage msg) {
+        setUniqueID(msg.playerInfo.uniqueId);
+        setName(msg.playerInfo.name);
+        setCharacter(msg.playerInfo.character);
         setMob(msg.playerInfo.character);
         setHealth(msg.playerInfo.health);
         setPoints(msg.playerInfo.points);
