@@ -52,6 +52,8 @@ import com.google.android.gms.nearby.connection.Payload;
 import com.google.android.gms.nearby.connection.PayloadCallback;
 import com.google.android.gms.nearby.connection.PayloadTransferUpdate;
 import com.google.android.gms.nearby.connection.Strategy;
+import com.sombright.vizix.simultanea.MobCharacters.MobModel;
+import com.sombright.vizix.simultanea.MobCharacters.MobPool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -286,12 +288,12 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
             Player player = null;
             do {
                 num++;
-                for (Character character : CharacterPool.charactersList) {
+                for (MobModel mob: MobPool.mobList) {
                     // Skip unplayable characters
-                    if (!character.isPlayable()) {
+                    if (!mob.isPlayable()) {
                         continue;
                         }
-                    characterName = character.getName(PlayActivity.this);
+                    characterName = mob.getName(PlayActivity.this);
                     playerName = characterName;
                     if (num > 1) {
                         playerName += " " + num;
@@ -304,8 +306,8 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
             } while (player != null);
             player = new Player(this);
             player.setName(playerName);
-            player.setCharacter(characterName);
-            GameMessage msg = player.getPlayerDetails();
+            player.setMob(characterName);
+            GameMessage msg = player.getMobDetails();
             onReceive(null, Payload.fromBytes(msg.toBytes()));
         }
 

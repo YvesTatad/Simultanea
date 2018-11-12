@@ -11,7 +11,7 @@ public class MobModel {
     private final int mImageResourceAttack;
     private final int mStringResourceLore;
     private final int mHeal, mRecovery, mAttack, mDefense;
-//    private boolean mPlayable;
+    private boolean mPlayable;
 
     public MobModel(int strResName,
                     int imgRes,
@@ -19,7 +19,7 @@ public class MobModel {
                     int deathAnimationId, int deadImageId,
                     int imgResAttack,
                     int strResLore,
-                    int heal, int recovery, int attack, int defense/*, boolean playable*/) {
+                    int heal, int recovery, int attack, int defense, boolean playable) {
         mStringResourceName = strResName;
         mImageResource = imgRes;
         mImageResourceHurt = imgResHurt;
@@ -31,7 +31,7 @@ public class MobModel {
         mRecovery = recovery;
         mAttack = attack;
         mDefense = defense;
-//        mPlayable = playable;
+        mPlayable = playable;
 
     }
 
@@ -78,5 +78,5 @@ public class MobModel {
     int getDefense() {
         return mDefense;
     }
-//    boolean isPlayable() { return mPlayable; }
+    public boolean isPlayable() { return mPlayable; }
 }

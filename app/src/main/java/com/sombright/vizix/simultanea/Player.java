@@ -6,6 +6,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.sombright.vizix.simultanea.ConnectionsActivity.Endpoint;
+import com.sombright.vizix.simultanea.MobCharacters.MobModel;
+import com.sombright.vizix.simultanea.MobCharacters.MobPool;
 
 import java.util.UUID;
 
@@ -22,6 +24,7 @@ public class Player {
     private Endpoint mEndpoint;
     private String mUniqueID;
     private String mName;
+    private MobModel mMob;
     private Character mCharacter;
     private AnimationDrawable mAnimation;
     private int mHealth;
@@ -38,7 +41,7 @@ public class Player {
         mCombatMode = COMBAT_MODE_NONE;
     }
 
-    Endpoint getEndpoint() {
+     Endpoint getEndpoint() {
         return mEndpoint;
     }
 
@@ -46,7 +49,7 @@ public class Player {
         mEndpoint = endpoint;
     }
 
-    String getUniqueID() {
+     String getUniqueID() {
         return mUniqueID;
     }
 
@@ -83,7 +86,28 @@ public class Player {
         return mCharacter.getName(mContext);
     }
 
-    int getHealth() {
+    public MobModel getMob() {
+        return mMob;
+    }
+
+    public void setMob(String name) {
+        for (MobModel mob : MobPool.mobList) {
+            if (mob.getName(mContext).equals(name)) {
+                mMob = mob;
+                return;
+            }
+        }
+        if (mMob == null) {
+            Log.e(TAG, "Unknown mob " + name + ". Using default instead.");
+            mMob = MobPool.getDefaultMob();
+        }
+    }
+
+    public String getMobName() {
+        return mMob.getName(mContext);
+    }
+
+    public int getHealth() {
         return mHealth;
     }
 
@@ -150,6 +174,18 @@ public class Player {
         msg.playerInfo.uniqueId = mUniqueID;
         msg.playerInfo.name = mName;
         msg.playerInfo.character = mCharacter.getName(mContext);
+        msg.playerInfo.health = mHealth;
+        msg.playerInfo.points = mPoints;
+        msg.playerInfo.battle = mCombatMode;
+        return msg;
+    }
+
+    GameMessage getMobDetails() {
+        GameMessage msg = new GameMessage();
+        msg.setType(GameMessage.GAME_MESSAGE_TYPE_PLAYER_INFO);
+        msg.playerInfo.uniqueId = mUniqueID;
+        msg.playerInfo.name = mName;
+        msg.playerInfo.character = mMob.getName(mContext);
         msg.playerInfo.health = mHealth;
         msg.playerInfo.points = mPoints;
         msg.playerInfo.battle = mCombatMode;
