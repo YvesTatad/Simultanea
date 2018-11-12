@@ -15,6 +15,7 @@ class PreferencesProxy {
     private static final String PREF_MULTI_PLAYER_ALIAS = "multiPlayerAlias";
     private static final String PREF_CHARACTER = "character";
     private static final String PREF_USE_OPEN_TRIVIA_DB = "useOpenTriviaDatabase";
+    private static final String PREF_HIGH_SCORE = "highScore";
     // Default values
     private static final boolean DEFAULT_MULTI_PLAYER_MODE = false;
     private static final boolean DEFAULT_MULTI_PLAYER_MASTER = false;
@@ -91,6 +92,16 @@ class PreferencesProxy {
     void setUseOpenTriviaDatabase(boolean enabled) {
         SharedPreferences.Editor editor = mPrefs.edit();
         editor.putBoolean(PREF_USE_OPEN_TRIVIA_DB, enabled);
+        editor.apply();
+    }
+
+    int getHighScore() {
+        return mPrefs.getInt(PREF_HIGH_SCORE, 0);
+    }
+
+    void setHighScore(int points) {
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putInt(PREF_HIGH_SCORE, points);
         editor.apply();
     }
 }

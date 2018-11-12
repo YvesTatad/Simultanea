@@ -22,7 +22,8 @@ public class ProfileActivity extends AppCompatActivity {
         profilePlayerName = mPrefs.getMultiPlayerAlias();
         profileNameTextView = findViewById(R.id.profileNameText);
         profileNameTextView.setText(profilePlayerName);
-
+        TextView textView = findViewById(R.id.textViewHighScore);
+        textView.setText("High Score: " + mPrefs.getHighScore());
 
 
 

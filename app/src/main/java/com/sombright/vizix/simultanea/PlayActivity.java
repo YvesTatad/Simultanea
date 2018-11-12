@@ -225,6 +225,11 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
         if (isDiscovering()) {
             stopDiscovering();
         }
+
+        // Update the player profile if needed
+        if (me.getPoints() > mPrefs.getHighScore()) {
+            mPrefs.setHighScore(me.getPoints());
+        }
     }
 
     @Override
