@@ -12,7 +12,7 @@
         android:scaleType="fitStart" />
 
     <TextView
-        android:id="@+id/textViewPlayerName"
+        android:id="@+id/textViewMobName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal" />
