@@ -70,7 +70,7 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
     private final static int STATE_WAITING_FOR_PLAYERS = 1;
     private final static int STATE_WAITING_FOR_QUESTION = 2;
     private final static int STATE_WAITING_FOR_ANSWER = 3;
-    private Integer countNum = 0;
+    private CountDownTimer mQuestionLifeSpanCounter;
     private final static int MESSAGE_DURATION_MS = 1500;
     private final static int LONG_MESSAGE_DURATION_MS = 3000;
     private final static int MAX_PLAYERS = 10;
@@ -214,7 +214,7 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
         Log.d(TAG, "onResume");
         mMusic.start();
 
-        startDiscovering();
+        //startDiscovering();
     }
 
     @Override
@@ -224,6 +224,11 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
         mMusic.pause();
         if (isDiscovering()) {
             stopDiscovering();
+        }
+
+        // Update the player profile if needed
+        if (me.getPoints() > mPrefs.getHighScore()) {
+            mPrefs.setHighScore(me.getPoints());
         }
     }
 
@@ -323,10 +328,12 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
             quizPool = new QuizPool(this);
         }
         pickQuestion();
-        questionLifeSpan();
     }
 
     private void pickQuestion() {
+        // The previous question is over, clear-out any pending answers
+        handler.removeCallbacksAndMessages(null);
+
         me.setAnswered(false);
         mPlayersViewAdapter.setAnswered(false);
         QuizPool.Entry entry;
@@ -375,9 +382,19 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
                 @Override
                 public void run() {
                     // TODO: vary the likeliness that the player answered correctly based on the character
+
                     boolean correct = random.nextBoolean();
                     // Player sends their answer to tasks master...
                     player.setAnswered(true);
+
+                    Log.d(TAG, "Player " + player.getName() + " answered " + (correct ? "right":"wrong"));
+
+                    if (correct || mPlayersViewAdapter.hasEveryoneAnswered()) {
+                        if (mQuestionLifeSpanCounter != null) {
+                            mQuestionLifeSpanCounter.cancel();
+                        }
+                    }
+
                     // Taskmaster adjusts player info
                     if (correct) {
                         player.setPoints(player.getPoints()+1);
@@ -386,30 +403,34 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
                         onReceive(null, Payload.fromBytes(msg.toBytes()));
                     }
                     // Taskmaster picks another question
-                    if (me.hasAnswered() && mPlayersViewAdapter.hasEveryoneAnswered()) {
+                    if (correct || (me.hasAnswered() && mPlayersViewAdapter.hasEveryoneAnswered())) {
                         pickQuestion();
                     }
-//                    questionLifeSpan();
                 }
-            }, random.nextInt(10)*1000);
+            }, 3000 + random.nextInt(10)*1000);
         }
         showQuestionAlt();
+        questionLifeSpan();
     }
 
-    private void questionLifeSpan(){
+    private void questionLifeSpan() {
 
-        new CountDownTimer(10000, 1000) { // 1000 = 1 sec
+       mQuestionLifeSpanCounter = new CountDownTimer(10000, 1000) { // 1000 = 1 sec
+            private Integer countNum = 0;
 
+            @Override
             public void onTick(long millisUntilFinished) {
             countNum = countNum+1;
                 Log.d("QuestionLifeSpanCounter", countNum.toString());
             }
 
+            @Override
             public void onFinish() {
                 pickQuestion();
                 countNum = 0;
             }
-        }.start();
+        };
+        mQuestionLifeSpanCounter.start();
     }
     /**
      * Functions to change the content of the bottom-right box
@@ -726,6 +747,12 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
             // First thing: prevent user from clicking other answers while we handle this one.
             recursiveSetEnabled(false, answersLayout);
 
+            if (answer.correct || mPlayersViewAdapter.hasEveryoneAnswered()) {
+                if (mQuestionLifeSpanCounter != null) {
+                    mQuestionLifeSpanCounter.cancel();
+                }
+            }
+
             if (answer.correct) {
                 Log.d(TAG, "Correct!");
                 questionText.setText(R.string.answer_correct);
@@ -810,10 +837,10 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
             if (player == null) {
                 Log.d(TAG, "Adding player with UUID=" + msg.playerInfo.uniqueId);
                 player = new Player(this);
-                player.setPlayerDetails(msg);
+                player.setMobDetails(msg);
                 mPlayersViewAdapter.add(player);
             } else {
-                player.setPlayerDetails(msg);
+                player.setMobDetails(msg);
                 mPlayersViewAdapter.notifyDataSetChanged();
             }
         }
