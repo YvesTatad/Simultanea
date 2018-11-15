@@ -9,6 +9,9 @@ import android.util.Log;
 import com.sombright.vizix.simultanea.ConnectionsActivity.Endpoint;
 import com.sombright.vizix.simultanea.MobCharacters.MobModel;
 import com.sombright.vizix.simultanea.MobCharacters.MobPool;
+import com.sombright.vizix.simultanea.MobCharacters.SPBattleLevels.LevelOne;
+import com.sombright.vizix.simultanea.MobCharacters.SPBattleLevels.LevelThree;
+import com.sombright.vizix.simultanea.MobCharacters.SPBattleLevels.LevelTwo;
 
 import java.util.UUID;
 
@@ -71,6 +74,18 @@ public class Player {
         if (name != null) {
             return name;
         }
+        name = getMobsLevelOneName();
+        if (name != null) {
+            return name;
+        }
+        name = getMobsLevelTwoName();
+        if (name != null) {
+            return name;
+        }
+        name = getMobsLevelThreeName();
+        if (name != null) {
+            return name;
+        }
         return "unnamed";
     }
 
@@ -117,6 +132,69 @@ public class Player {
     }
 
     public String getMobName() {
+        return mMob.getName(mContext);
+    }
+
+    public MobModel getMobsLevelOne() {
+        return mMob;
+    }
+
+    public void setMobsLevelOne(String name) {
+        for (MobModel mob : LevelOne.mobListLevelOne) {
+            if (mob.getName(mContext).equals(name)) {
+                mMob = mob;
+                return;
+            }
+        }
+        if (mMob == null) {
+            Log.e(TAG, "Unknown mob " + name + ". Using default instead.");
+            mMob = LevelOne.getDefaultMobLevelOne();
+        }
+    }
+
+    public String getMobsLevelOneName() {
+        return mMob.getName(mContext);
+    }
+
+    public MobModel getMobsLevelTwo() {
+        return mMob;
+    }
+
+    public void setMobsLevelTwo(String name) {
+        for (MobModel mob : LevelTwo.mobListLevelTwo) {
+            if (mob.getName(mContext).equals(name)) {
+                mMob = mob;
+                return;
+            }
+        }
+        if (mMob == null) {
+            Log.e(TAG, "Unknown mob " + name + ". Using default instead.");
+            mMob = MobPool.getDefaultMob();
+        }
+    }
+
+    public String getMobsLevelTwoName() {
+        return mMob.getName(mContext);
+    }
+
+    public MobModel getMobsLevelThree() {
+        return mMob;
+    }
+
+    public void setMobsLevelThree(String name) {
+        for (MobModel mob : LevelThree.mobListLevelThree) {
+            if (mob.getName(mContext).equals(name)) {
+                mMob = mob;
+                return;
+            }
+        }
+        if (mMob == null) {
+            Log.e(TAG, "Unknown mob " + name + ". Using default instead.");
+            mMob = MobPool.getDefaultMob();
+        }
+    }
+
+    public String getMobsLevelThreeName() {
         return mMob.getName(mContext);
     }
 
@@ -209,7 +287,8 @@ public class Player {
     void setPlayerDetails(GameMessage msg) {
         setUniqueID(msg.playerInfo.uniqueId);
         setName(msg.playerInfo.name);
-        setCharacter(msg.playerInfo.character);
+        setCharacter("invalid");
+        setMob(msg.playerInfo.character);
         setMob(msg.playerInfo.character);
         setHealth(msg.playerInfo.health);
         setPoints(msg.playerInfo.points);

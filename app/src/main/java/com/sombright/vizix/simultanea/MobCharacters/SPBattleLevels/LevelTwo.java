@@ -4,7 +4,7 @@ import com.sombright.vizix.simultanea.MobCharacters.MobModel;
 import com.sombright.vizix.simultanea.R;
 
 public class LevelTwo{
-    static final MobModel[] mobListLevelTwo = {
+    public static final MobModel[] mobListLevelTwo = {
             new com.sombright.vizix.simultanea.MobCharacters.MobModel(
                     R.string.goblin_name,
                     R.drawable.goblin_stand,

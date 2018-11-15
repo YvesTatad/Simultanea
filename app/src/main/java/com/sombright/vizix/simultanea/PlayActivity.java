@@ -67,6 +67,7 @@ import static com.sombright.vizix.simultanea.MainActivity.TAG;
 
 public class PlayActivity extends ConnectionsActivity implements View.OnClickListener, PlayersViewAdapter.OnClickPlayerListener, OpenTriviaDatabase.Listener {
 
+    private int currentLevel = 0;
     private final static int STATE_WAITING_FOR_PLAYERS = 1;
     private final static int STATE_WAITING_FOR_QUESTION = 2;
     private final static int STATE_WAITING_FOR_ANSWER = 3;
@@ -313,7 +314,20 @@ public class PlayActivity extends ConnectionsActivity implements View.OnClickLis
             } while (player != null);
             player = new Player(this);
             player.setName(playerName);
-            player.setMob(characterName);
+            if(currentLevel == 0){
+                player.setMob(characterName);
+            }
+
+            if(currentLevel == 1){
+                player.setMobsLevelOne(characterName);
+            }
+            if(currentLevel == 2){
+                player.setMobsLevelTwo(characterName);
+            }
+            if(currentLevel == 3){
+                player.setMobsLevelThree(characterName);
+            }
+
             GameMessage msg = player.getMobDetails();
             onReceive(null, Payload.fromBytes(msg.toBytes()));
         }

@@ -4,7 +4,7 @@ import com.sombright.vizix.simultanea.MobCharacters.MobModel;
 import com.sombright.vizix.simultanea.R;
 
 public class LevelThree{
-    static final MobModel[] mobListLevelThree = {
+    public static final MobModel[] mobListLevelThree = {
             new com.sombright.vizix.simultanea.MobCharacters.MobModel(
                     R.string.skeleton_name,
                     R.drawable.skeleton_stand,
