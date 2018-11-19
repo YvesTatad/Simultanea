@@ -87,7 +87,7 @@ public class PlayActivityMulti extends ConnectionsActivity implements View.OnCli
     private ProgressBar localPlayerHealth;
     private ImageView localPlayerThumb;
     private ImageView leftAnimation, rightAnimation;
-    private Button buttonStartGame, buttonQuestion, buttonAnswers, buttonBattle;
+    private Button buttonQuestion, buttonAnswers, buttonBattle;
     private Button buttonHeal, buttonAttack, buttonDefend;
     private Handler handler = new Handler();
     private MediaPlayer mMusic;
@@ -162,7 +162,6 @@ public class PlayActivityMulti extends ConnectionsActivity implements View.OnCli
         leftAnimation = findViewById(R.id.leftAnimation);
         rightAnimation = findViewById(R.id.rightAnimation);
 
-        buttonStartGame = findViewById(R.id.buttonStartGame);
         buttonQuestion = findViewById(R.id.buttonQuestion);
         buttonAnswers = findViewById(R.id.buttonAnswers);
         buttonBattle = findViewById(R.id.buttonBattle);
@@ -281,12 +280,6 @@ public class PlayActivityMulti extends ConnectionsActivity implements View.OnCli
                 recursiveSetEnabled(enable, (ViewGroup) child);
             }
         }
-    }
-
-    public void onClickStartGame(View view) {
-        Log.d(TAG, "onClickStartGame");
-        startActivity(new Intent(this, PlayActivity.class));
-        finish();
     }
 
     private void pickQuestion() {
@@ -852,7 +845,6 @@ public class PlayActivityMulti extends ConnectionsActivity implements View.OnCli
         Log.i(TAG, "onConnectionInitiated: accepting connection");
         acceptConnection(endpoint);
         questionText.setText("Connecting to taskmaster...");
-        buttonStartGame.setVisibility(View.GONE);
     }
 
     @Override
@@ -866,7 +858,6 @@ public class PlayActivityMulti extends ConnectionsActivity implements View.OnCli
     @Override
     protected void onConnectionFailed(Endpoint endpoint) {
         questionText.setText("Connection failed, but let's keep looking for taskmaster...");
-        buttonStartGame.setVisibility(View.VISIBLE);
         startDiscovering();
     }
 

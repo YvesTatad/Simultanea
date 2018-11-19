@@ -39,19 +39,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.nearby.Nearby;
-import com.google.android.gms.nearby.connection.AdvertisingOptions;
-import com.google.android.gms.nearby.connection.ConnectionInfo;
-import com.google.android.gms.nearby.connection.ConnectionLifecycleCallback;
-import com.google.android.gms.nearby.connection.ConnectionResolution;
-import com.google.android.gms.nearby.connection.ConnectionsClient;
-import com.google.android.gms.nearby.connection.DiscoveredEndpointInfo;
-import com.google.android.gms.nearby.connection.DiscoveryOptions;
-import com.google.android.gms.nearby.connection.EndpointDiscoveryCallback;
-import com.google.android.gms.nearby.connection.Payload;
-import com.google.android.gms.nearby.connection.PayloadCallback;
-import com.google.android.gms.nearby.connection.PayloadTransferUpdate;
-import com.google.android.gms.nearby.connection.Strategy;
 import com.sombright.vizix.simultanea.MobCharacters.MobModel;
 import com.sombright.vizix.simultanea.MobCharacters.MobPool;
 
@@ -61,20 +48,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import static com.sombright.vizix.simultanea.Constants.SERVICE_ID;
-import static com.sombright.vizix.simultanea.Constants.STRATEGY;
 import static com.sombright.vizix.simultanea.MainActivity.TAG;
 
 public class PlayActivity extends AppCompatActivity implements View.OnClickListener, PlayersViewAdapter.OnClickPlayerListener, OpenTriviaDatabase.Listener {
 
     private int currentLevel = 0;
-    private final static int STATE_WAITING_FOR_PLAYERS = 1;
-    private final static int STATE_WAITING_FOR_QUESTION = 2;
-    private final static int STATE_WAITING_FOR_ANSWER = 3;
     private CountDownTimer mQuestionLifeSpanCounter;
     private final static int MESSAGE_DURATION_MS = 1500;
     private final static int LONG_MESSAGE_DURATION_MS = 3000;
-    private final static int MAX_PLAYERS = 10;
     TextView questionText;
     private Random random = new Random();
     private LinearLayout answersLayout;
@@ -239,9 +220,8 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
             if(currentLevel == 3){
                 player.setMobsLevelThree(characterName);
             }
-
-            GameMessage msg = player.getMobDetails();
-            onReceivePlayerInfo(msg);
+            mPlayersViewAdapter.add(player);
+            updatePlayerInfo(player);
         }
 
         if (mPrefs.shouldUseOpenTriviaDatabase()) {
@@ -363,10 +343,21 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             entry = quizPool.getQuestion();
         }
-        GameMessage msg = new GameMessage();
-        msg.setType(GameMessage.GAME_MESSAGE_TYPE_QUESTION);
-        msg.questionInfo.entry = entry;
-        onReceiveQuestion(msg);
+        questionText.setText(entry.question);
+
+        // We clear-out the old buttons, and create new ones for the current question
+        answersLayout.removeAllViews();
+        for (QuizPool.Answer answer : entry.answers) {
+            Button button = new Button(this);
+            button.setText(answer.text);
+            button.setTag(R.id.id_answer, answer);
+            button.setOnClickListener(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            lp.gravity = Gravity.CENTER;
+            button.setLayoutParams(lp);
+            answersLayout.addView(button);
+        }
+
         // Fake receiving updates from taskmaster as other players answered
         for (int i = 0; i < mPlayersViewAdapter.getCount(); i++) {
             final Player player = mPlayersViewAdapter.getItem(i);
@@ -394,9 +385,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                     // Taskmaster adjusts player info
                     if (correct) {
                         player.setPoints(player.getPoints()+1);
-                        // Taskmaster sends player info
-                        GameMessage msg = player.getPlayerDetails();
-                        onReceivePlayerInfo(msg);
+                        updatePlayerInfo(player);
                     }
                     // Taskmaster picks another question
                     if (correct || (me.hasAnswered() && mPlayersViewAdapter.hasEveryoneAnswered())) {
@@ -498,8 +487,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
 //        buttonAttack.setEnabled(false);
 //        buttonDefend.setEnabled(false);
         me.setCombatMode(Player.COMBAT_MODE_HEAL);
-        updateLocalPlayerUi();
-        sendPlayerDetails();
+        updatePlayerInfo(me);
         int cooldown = me.getCharacter().getRecovery() * 1000;
         handler.postDelayed(new Runnable() {
             @Override
@@ -508,8 +496,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
                 me.setCombatMode(Player.COMBAT_MODE_NONE);
-                updateLocalPlayerUi();
-                sendPlayerDetails();
+                updatePlayerInfo(me);
                 if (me.getPoints() >= 2) {
                     buttonHeal.setEnabled(true);
                 }
@@ -530,8 +517,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
 //        buttonAttack.setEnabled(false);
         buttonDefend.setEnabled(false);
         me.setCombatMode(Player.COMBAT_MODE_DEFEND);
-        updateLocalPlayerUi();
-        sendPlayerDetails();
+        updatePlayerInfo(me);
         int cooldown = me.getCharacter().getRecovery() * 1000;
         handler.postDelayed(new Runnable() {
             @Override
@@ -540,8 +526,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
                 me.setCombatMode(Player.COMBAT_MODE_NONE);
-                updateLocalPlayerUi();
-                sendPlayerDetails();
+                updatePlayerInfo(me);
 //                buttonHeal.setEnabled(true);
                 if (me.getPoints() >= 1) {
                     buttonAttack.setEnabled(true);
@@ -563,8 +548,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         buttonDefend.setEnabled(false);
         me.setCombatMode(Player.COMBAT_MODE_ATTACK);
         mPlayersViewAdapter.setClickable(true);
-        updateLocalPlayerUi();
-        sendPlayerDetails();
+        updatePlayerInfo(me);
     }
 
     private void animateAttack(Player attacker, Player victim, boolean defending, boolean killed) {
@@ -762,9 +746,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
             if (answer.correct) {
                 // Simulate task master sending us updated points
                 me.setPoints(me.getPoints()+1);
-                // Taskmaster sends player info
-                GameMessage msg = me.getPlayerDetails();
-                onReceivePlayerInfo(msg);
+                updatePlayerInfo(me);
             }
             if (mPlayersViewAdapter.hasEveryoneAnswered()) {
                 handler.postDelayed(new Runnable() {
@@ -780,56 +762,17 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         Log.e(TAG, "Unhandled click on " + v);
     }
 
-    private void onReceivePlayerInfo(GameMessage msg) {
-        Log.d(TAG, "onReceivePlayerInfo");
-        Player player;
+    private void updatePlayerInfo(Player player) {
+        Log.d(TAG, "updatePlayerInfo");
 
-        if (msg.playerInfo.uniqueId.equals(me.getUniqueID())) {
-            player = me;
-            player.setPlayerDetails(msg);
+        if (player == me) {
             updateLocalPlayerUi();
             if (me.getPoints() != 0) {
                 buttonAttack.setEnabled(true);
             }
         } else {
-            player = mPlayersViewAdapter.getPlayer(msg.playerInfo.uniqueId);
-            // The first time we receive a player's info, we add it to the UI
-            if (player == null) {
-                Log.d(TAG, "Adding player with UUID=" + msg.playerInfo.uniqueId);
-                player = new Player(this);
-                player.setMobDetails(msg);
-                mPlayersViewAdapter.add(player);
-            } else {
-                player.setMobDetails(msg);
-                mPlayersViewAdapter.notifyDataSetChanged();
-            }
+            mPlayersViewAdapter.notifyDataSetChanged();
         }
-    }
-
-    private void onReceiveQuestion(GameMessage msg) {
-        Log.d(TAG, "onReceiveQuestion");
-        QuizPool.Entry entry = msg.questionInfo.entry;
-        questionText.setText(entry.question);
-
-        // We clear-out the old buttons, and create new ones for the current question
-        answersLayout.removeAllViews();
-        for (QuizPool.Answer answer : entry.answers) {
-            Button button = new Button(this);
-            button.setText(answer.text);
-            button.setTag(R.id.id_answer, answer);
-            button.setOnClickListener(this);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            lp.gravity = Gravity.CENTER;
-            button.setLayoutParams(lp);
-            answersLayout.addView(button);
-        }
-    }
-
-    private void sendPlayerDetails() {
-        Log.d(TAG, "sendPlayerDetails");
-        GameMessage msg = me.getPlayerDetails();
-        // Simulate the task master sending the player info to everyone, including ourselves
-        onReceivePlayerInfo(msg);
     }
 
     @Override
@@ -837,34 +780,27 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         Log.v(TAG, "onClickPlayer: " + victim.getName());
         // Check if it was a player button
         mPlayersViewAdapter.setClickable(false);
-        // Simulate task master calculating results and informing us back
-        GameMessage msg = new GameMessage();
-        msg.setType(GameMessage.GAME_MESSAGE_TYPE_ATTACK);
-        msg.attackInfo.attackerId = me.getUniqueID();
-        msg.attackInfo.victimId = victim.getUniqueID();
-        msg.attackInfo.defending = victim.getCombatMode() == Player.COMBAT_MODE_DEFEND;
+        boolean defending = victim.getCombatMode() == Player.COMBAT_MODE_DEFEND;
         int damage = me.getCharacter().getAttack();
-        if (msg.attackInfo.defending) {
+        if (defending) {
             damage -= victim.getCharacter().getDefense();
         }
         if (damage < 0) {
             damage = 0;
         }
         int victimHealth = victim.getHealth() - damage;
+        boolean killed = false;
         if (victimHealth <= 0) {
             victim.setHealth(0);
-            msg.attackInfo.killed = true;
+            killed = true;
         } else {
             victim.setHealth(victimHealth);
         }
         // Attacking is not free...
         me.setPoints(me.getPoints()-1);
-        animateAttack(me, victim, msg.attackInfo.defending, msg.attackInfo.killed);
-        // Send updated player info
-        msg = victim.getPlayerDetails();
-        onReceivePlayerInfo(msg);
-        msg = me.getPlayerDetails();
-        onReceivePlayerInfo(msg);
+        animateAttack(me, victim, defending, killed);
+        updatePlayerInfo(victim);
+        updatePlayerInfo(me);
 //        buttonHeal.setEnabled(true);
         if (me.getPoints() >= 1) {
             buttonAttack.setEnabled(true);

@@ -156,13 +156,6 @@
         app:layout_constraintTop_toTopOf="@id/contentsLayout">
 
         <Button
-            android:id="@+id/buttonStartGame"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onClickStartGame"
-            android:text="@string/single_player_game" />
-
-        <Button
             android:id="@+id/buttonQuestion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
