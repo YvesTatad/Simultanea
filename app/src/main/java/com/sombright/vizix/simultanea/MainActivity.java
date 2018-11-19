@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         if (mPrefs.isMultiPlayerMaster())
             intent = new Intent(this, TaskMasterActivity.class);
         else
-            intent = new Intent(this, PlayActivity.class);
+            intent = new Intent(this, PlayActivityMulti.class);
         startActivity(intent);
     }
 
