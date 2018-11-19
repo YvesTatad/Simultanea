@@ -128,10 +128,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickPlay(View view) {
         Intent intent;
-        if (mPrefs.isMultiPlayerMaster())
-            intent = new Intent(this, TaskMasterActivity.class);
-        else
+        if (view.getId() == R.id.PLAY_MULTI) {
+            if (mPrefs.isMultiPlayerMaster())
+                intent = new Intent(this, TaskMasterActivity.class);
+            else
+                intent = new Intent(this, PlayActivityMulti.class);
+        } else {
             intent = new Intent(this, PlayActivity.class);
+        }
         startActivity(intent);
     }
 

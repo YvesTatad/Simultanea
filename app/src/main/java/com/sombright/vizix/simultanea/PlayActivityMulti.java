@@ -3,6 +3,7 @@ package com.sombright.vizix.simultanea;
 import android.Manifest;
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PointF;
@@ -39,6 +40,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.nearby.Nearby;
+import com.google.android.gms.nearby.connection.AdvertisingOptions;
+import com.google.android.gms.nearby.connection.ConnectionInfo;
+import com.google.android.gms.nearby.connection.ConnectionLifecycleCallback;
+import com.google.android.gms.nearby.connection.ConnectionResolution;
+import com.google.android.gms.nearby.connection.ConnectionsClient;
+import com.google.android.gms.nearby.connection.DiscoveredEndpointInfo;
+import com.google.android.gms.nearby.connection.DiscoveryOptions;
+import com.google.android.gms.nearby.connection.EndpointDiscoveryCallback;
+import com.google.android.gms.nearby.connection.Payload;
+import com.google.android.gms.nearby.connection.PayloadCallback;
+import com.google.android.gms.nearby.connection.PayloadTransferUpdate;
+import com.google.android.gms.nearby.connection.Strategy;
 import com.sombright.vizix.simultanea.MobCharacters.MobModel;
 import com.sombright.vizix.simultanea.MobCharacters.MobPool;
 
@@ -48,14 +62,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import static com.sombright.vizix.simultanea.Constants.SERVICE_ID;
+import static com.sombright.vizix.simultanea.Constants.STRATEGY;
 import static com.sombright.vizix.simultanea.MainActivity.TAG;
 
-public class PlayActivity extends AppCompatActivity implements View.OnClickListener, PlayersViewAdapter.OnClickPlayerListener, OpenTriviaDatabase.Listener {
+public class PlayActivityMulti extends ConnectionsActivity implements View.OnClickListener, PlayersViewAdapter.OnClickPlayerListener, OpenTriviaDatabase.Listener {
 
     private int currentLevel = 0;
+    private final static int STATE_WAITING_FOR_PLAYERS = 1;
+    private final static int STATE_WAITING_FOR_QUESTION = 2;
+    private final static int STATE_WAITING_FOR_ANSWER = 3;
     private CountDownTimer mQuestionLifeSpanCounter;
     private final static int MESSAGE_DURATION_MS = 1500;
     private final static int LONG_MESSAGE_DURATION_MS = 3000;
+    private final static int MAX_PLAYERS = 10;
     TextView questionText;
     private Random random = new Random();
     private LinearLayout answersLayout;
@@ -131,7 +151,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG, "Playing as character " + me.getCharacter());
 
         // Apply the initial layout (we will modify below)
-        setContentView(R.layout.activity_play);
+        setContentView(R.layout.activity_play_multi);
 
         // These are the portions of the layout that we will modify during the game
         questionText = findViewById(R.id.questionTextView);
@@ -175,65 +195,17 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onDiscoveryStarted() {
+        Log.d(TAG, "onDiscoveryStarted");
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart");
         // Background music
         mMusic = MediaPlayer.create(this, R.raw.fight2);
         mMusic.setLooping(true);
-
-        for (int i = 0; i < 5; i++) {
-            // Find a unique name
-            String characterName = null, playerName = null;
-            int num = 0; // Add a number when the name already exists
-            Player player = null;
-            do {
-                num++;
-                for (MobModel mob: MobPool.mobList) {
-                    // Skip unplayable characters
-                    if (!mob.isPlayable()) {
-                        continue;
-                    }
-                    characterName = mob.getName(PlayActivity.this);
-                    playerName = characterName;
-                    if (num > 1) {
-                        playerName += " " + num;
-                    }
-                    player = mPlayersViewAdapter.getPlayerByName(playerName);
-                    if (player == null) {
-                        break;
-                    }
-                }
-            } while (player != null);
-            player = new Player(this);
-            player.setName(playerName);
-            if(currentLevel == 0){
-                player.setMob(characterName);
-            }
-
-            if(currentLevel == 1){
-                player.setMobsLevelOne(characterName);
-            }
-            if(currentLevel == 2){
-                player.setMobsLevelTwo(characterName);
-            }
-            if(currentLevel == 3){
-                player.setMobsLevelThree(characterName);
-            }
-            mPlayersViewAdapter.add(player);
-            updatePlayerInfo(player);
-        }
-
-        if (mPrefs.shouldUseOpenTriviaDatabase()) {
-            opentdb = new OpenTriviaDatabase(this);
-            opentdb.setQuestionAttributes(OpenTriviaDatabase.CATEGORY_ANY,
-                    OpenTriviaDatabase.DIFFICULTY_ANY,
-                    OpenTriviaDatabase.TYPE_ANY);
-            opentdb.setListener(this);
-        } else {
-            quizPool = new QuizPool(this);
-        }
-        pickQuestion();
     }
 
     @Override
@@ -242,7 +214,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG, "onResume");
         mMusic.start();
 
-        //startDiscovering();
+        startDiscovering();
     }
 
     @Override
@@ -250,6 +222,9 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
         Log.d(TAG, "onPause");
         mMusic.pause();
+        if (isDiscovering()) {
+            stopDiscovering();
+        }
 
         // Update the player profile if needed
         if (me.getPoints() > mPrefs.getHighScore()) {
@@ -262,6 +237,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG, "onStop");
         mMusic.stop();
         mMusic.release();
+        stopAllEndpoints();
         super.onStop();
     }
 
@@ -343,21 +319,10 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             entry = quizPool.getQuestion();
         }
-        questionText.setText(entry.question);
-
-        // We clear-out the old buttons, and create new ones for the current question
-        answersLayout.removeAllViews();
-        for (QuizPool.Answer answer : entry.answers) {
-            Button button = new Button(this);
-            button.setText(answer.text);
-            button.setTag(R.id.id_answer, answer);
-            button.setOnClickListener(this);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            lp.gravity = Gravity.CENTER;
-            button.setLayoutParams(lp);
-            answersLayout.addView(button);
-        }
-
+        GameMessage msg = new GameMessage();
+        msg.setType(GameMessage.GAME_MESSAGE_TYPE_QUESTION);
+        msg.questionInfo.entry = entry;
+        onReceive(null, Payload.fromBytes(msg.toBytes()));
         // Fake receiving updates from taskmaster as other players answered
         for (int i = 0; i < mPlayersViewAdapter.getCount(); i++) {
             final Player player = mPlayersViewAdapter.getItem(i);
@@ -385,7 +350,9 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                     // Taskmaster adjusts player info
                     if (correct) {
                         player.setPoints(player.getPoints()+1);
-                        updatePlayerInfo(player);
+                        // Taskmaster sends player info
+                        GameMessage msg = player.getPlayerDetails();
+                        onReceive(null, Payload.fromBytes(msg.toBytes()));
                     }
                     // Taskmaster picks another question
                     if (correct || (me.hasAnswered() && mPlayersViewAdapter.hasEveryoneAnswered())) {
@@ -487,7 +454,8 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
 //        buttonAttack.setEnabled(false);
 //        buttonDefend.setEnabled(false);
         me.setCombatMode(Player.COMBAT_MODE_HEAL);
-        updatePlayerInfo(me);
+        updateLocalPlayerUi();
+        sendPlayerDetails();
         int cooldown = me.getCharacter().getRecovery() * 1000;
         handler.postDelayed(new Runnable() {
             @Override
@@ -496,7 +464,8 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
                 me.setCombatMode(Player.COMBAT_MODE_NONE);
-                updatePlayerInfo(me);
+                updateLocalPlayerUi();
+                sendPlayerDetails();
                 if (me.getPoints() >= 2) {
                     buttonHeal.setEnabled(true);
                 }
@@ -517,7 +486,8 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
 //        buttonAttack.setEnabled(false);
         buttonDefend.setEnabled(false);
         me.setCombatMode(Player.COMBAT_MODE_DEFEND);
-        updatePlayerInfo(me);
+        updateLocalPlayerUi();
+        sendPlayerDetails();
         int cooldown = me.getCharacter().getRecovery() * 1000;
         handler.postDelayed(new Runnable() {
             @Override
@@ -526,7 +496,8 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
                 me.setCombatMode(Player.COMBAT_MODE_NONE);
-                updatePlayerInfo(me);
+                updateLocalPlayerUi();
+                sendPlayerDetails();
 //                buttonHeal.setEnabled(true);
                 if (me.getPoints() >= 1) {
                     buttonAttack.setEnabled(true);
@@ -548,7 +519,8 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         buttonDefend.setEnabled(false);
         me.setCombatMode(Player.COMBAT_MODE_ATTACK);
         mPlayersViewAdapter.setClickable(true);
-        updatePlayerInfo(me);
+        updateLocalPlayerUi();
+        sendPlayerDetails();
     }
 
     private void animateAttack(Player attacker, Player victim, boolean defending, boolean killed) {
@@ -742,37 +714,169 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                 questionText.setText(R.string.answer_incorrect);
                 v.setBackgroundColor(ColorUtils.setAlphaComponent(Color.RED, 150));
             }
-            me.setAnswered(true);
-            if (answer.correct) {
-                // Simulate task master sending us updated points
-                me.setPoints(me.getPoints()+1);
-                updatePlayerInfo(me);
-            }
-            if (mPlayersViewAdapter.hasEveryoneAnswered()) {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        pickQuestion();
-                    }
-                }, 500);
-            }
+            GameMessage msg = new GameMessage();
+            msg.setType(GameMessage.GAME_MESSAGE_TYPE_ANSWER);
+            msg.answerInfo.correct = answer.correct;
+            send(Payload.fromBytes(msg.toBytes()));
             return;
         }
 
         Log.e(TAG, "Unhandled click on " + v);
     }
 
-    private void updatePlayerInfo(Player player) {
-        Log.d(TAG, "updatePlayerInfo");
+    /**
+     * Process a message received from another device.
+     *
+     * @param endpoint the sender
+     * @param payload  the message
+     */
+    @Override
+    protected void onReceive(Endpoint endpoint, Payload payload) {
+        if (payload.getType() != Payload.Type.BYTES) {
+            Log.e(TAG, "Cannot handle messages of type " + payload.getType());
+            return;
+        }
+        GameMessage msg = GameMessage.fromBytes(payload.asBytes());
+        assert msg != null;
+        switch (msg.getType()) {
+            case GameMessage.GAME_MESSAGE_TYPE_PLAYER_INFO:
+                onReceivePlayerInfo(endpoint, msg);
+                break;
+            case GameMessage.GAME_MESSAGE_TYPE_ATTACK:
+                onReceiveAttackInfo(endpoint, msg);
+                break;
+            case GameMessage.GAME_MESSAGE_TYPE_QUESTION:
+                onReceiveQuestion(msg);
+                break;
+            default:
+                Log.wtf(TAG, "Unhandled game message type: " + msg.getType());
+        }
+    }
 
-        if (player == me) {
+    private void onReceivePlayerInfo(Endpoint endpoint, GameMessage msg) {
+        Log.d(TAG, "onReceivePlayerInfo");
+        Player player;
+
+        if (msg.playerInfo.uniqueId.equals(me.getUniqueID())) {
+            player = me;
+            player.setPlayerDetails(msg);
             updateLocalPlayerUi();
             if (me.getPoints() != 0) {
                 buttonAttack.setEnabled(true);
             }
         } else {
-            mPlayersViewAdapter.notifyDataSetChanged();
+            player = mPlayersViewAdapter.getPlayer(msg.playerInfo.uniqueId);
+            // The first time we receive a player's info, we add it to the UI
+            if (player == null) {
+                Log.d(TAG, "Adding player with UUID=" + msg.playerInfo.uniqueId);
+                player = new Player(this);
+                player.setMobDetails(msg);
+                mPlayersViewAdapter.add(player);
+            } else {
+                player.setMobDetails(msg);
+                mPlayersViewAdapter.notifyDataSetChanged();
+            }
         }
+    }
+
+    private void onReceiveAttackInfo(Endpoint endpoint, GameMessage msg) {
+        Log.d(TAG, "onReceiveAttackInfo");
+        Player attacker;
+        Player victim;
+        if (me.getUniqueID().equals(msg.attackInfo.attackerId)) {
+            attacker = me;
+            victim = mPlayersViewAdapter.getPlayer(msg.attackInfo.victimId);
+        } else if (me.getUniqueID().equals(msg.attackInfo.victimId)) {
+            victim = me;
+            attacker = mPlayersViewAdapter.getPlayer(msg.attackInfo.attackerId);
+        } else {
+            // We don't care about other people's battles
+            return;
+        }
+        animateAttack(attacker, victim, msg.attackInfo.defending, msg.attackInfo.killed);
+    }
+
+    private void onReceiveQuestion(GameMessage msg) {
+        Log.d(TAG, "onReceiveQuestion");
+        QuizPool.Entry entry = msg.questionInfo.entry;
+        questionText.setText(entry.question);
+
+        // We clear-out the old buttons, and create new ones for the current question
+        answersLayout.removeAllViews();
+        for (QuizPool.Answer answer : entry.answers) {
+            Button button = new Button(this);
+            button.setText(answer.text);
+            button.setTag(R.id.id_answer, answer);
+            button.setOnClickListener(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            lp.gravity = Gravity.CENTER;
+            button.setLayoutParams(lp);
+            answersLayout.addView(button);
+        }
+        // In case we just started the game...
+        buttonQuestion.setVisibility(View.VISIBLE);
+        buttonAnswers.setVisibility(View.VISIBLE);
+        buttonBattle.setVisibility(View.VISIBLE);
+    }
+
+    private void broadcastMessage(GameMessage msg) {
+        Log.d(TAG, "broadcastMessage");
+        send(Payload.fromBytes(msg.toBytes()));
+    }
+
+    private void sendPlayerDetails() {
+        Log.d(TAG, "sendPlayerDetails");
+        GameMessage msg = me.getPlayerDetails();
+        send(Payload.fromBytes(msg.toBytes()));
+    }
+
+    // --- A bunch of functions used by the connection callbacks ----
+
+    @Override
+    protected void onEndpointDiscovered(Endpoint endpoint) {
+        Log.i(TAG, "Found taskmaster");
+        // Immediately request connection and stop looking
+        connectToEndpoint(endpoint);
+        stopDiscovering();
+    }
+
+    @Override
+    protected void onConnectionInitiated(Endpoint endpoint, ConnectionInfo connectionInfo) {
+        Log.i(TAG, "onConnectionInitiated: accepting connection");
+        acceptConnection(endpoint);
+        questionText.setText("Connecting to taskmaster...");
+    }
+
+    @Override
+    protected void onEndpointConnected(Endpoint endpoint) {
+        Log.i(TAG, "onEndpointConnected: connection successful");
+        // Once the connection is established, we send our player info to the taskmaster
+        questionText.setText("Connected, waiting for game to begin...");
+        sendPlayerDetails();
+    }
+
+    @Override
+    protected void onConnectionFailed(Endpoint endpoint) {
+        questionText.setText("Connection failed, but let's keep looking for taskmaster...");
+        startDiscovering();
+    }
+
+    @Override
+    protected String getName() {
+        Log.d(TAG, "Name=" + me.getName());
+        return me.getName();
+    }
+
+    @Override
+    protected String getServiceId() {
+        Log.d(TAG, "SERVICE_ID=" + SERVICE_ID);
+        return SERVICE_ID;
+    }
+
+    @Override
+    protected Strategy getStrategy() {
+        Log.d(TAG, "STRATEGY=" + STRATEGY);
+        return STRATEGY;
     }
 
     @Override
@@ -780,27 +884,10 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         Log.v(TAG, "onClickPlayer: " + victim.getName());
         // Check if it was a player button
         mPlayersViewAdapter.setClickable(false);
-        boolean defending = victim.getCombatMode() == Player.COMBAT_MODE_DEFEND;
-        int damage = me.getCharacter().getAttack();
-        if (defending) {
-            damage -= victim.getCharacter().getDefense();
-        }
-        if (damage < 0) {
-            damage = 0;
-        }
-        int victimHealth = victim.getHealth() - damage;
-        boolean killed = false;
-        if (victimHealth <= 0) {
-            victim.setHealth(0);
-            killed = true;
-        } else {
-            victim.setHealth(victimHealth);
-        }
-        // Attacking is not free...
-        me.setPoints(me.getPoints()-1);
-        animateAttack(me, victim, defending, killed);
-        updatePlayerInfo(victim);
-        updatePlayerInfo(me);
+        GameMessage msg = new GameMessage();
+        msg.setType(GameMessage.GAME_MESSAGE_TYPE_ATTACK);
+        msg.attackInfo.victimId = victim.getUniqueID();
+        broadcastMessage(msg);
 //        buttonHeal.setEnabled(true);
         if (me.getPoints() >= 1) {
             buttonAttack.setEnabled(true);

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/battle"
-    tools:context="com.sombright.vizix.simultanea.PlayActivity"
+    tools:context="com.sombright.vizix.simultanea.PlayActivityMulti"
     tools:layout_editor_absoluteY="25dp">
 
     <LinearLayout
@@ -160,21 +160,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="showQuestion"
-            android:text="@string/question" />
+            android:text="@string/question"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/buttonAnswers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="showAnswers"
-            android:text="@string/answers" />
+            android:text="@string/answers"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/buttonBattle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="showBattleOptions"
-            android:text="@string/battle" />
+            android:text="@string/battle"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ImageView
