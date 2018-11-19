@@ -60,6 +60,10 @@ public class CharacterDetailsActivity extends AppCompatActivity {
         PreferencesProxy prefs = new PreferencesProxy(this);
         String name = getString(CharacterPool.charactersList[mCharacterNum].getStringResourceName());
         prefs.setCharacter(name);
+        Intent exitIntent;
+        exitIntent = new Intent(CharacterDetailsActivity.this, MainActivity.class);
+        exitIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityIfNeeded(exitIntent, 0);
         finish();
     }
 }

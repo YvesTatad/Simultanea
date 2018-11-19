@@ -11,7 +11,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String profilePlayerName;
     private PreferencesProxy mPrefs;
     private TextView profileNameTextView;
-    private String Points;
+    private String points;
 
 
     @Override

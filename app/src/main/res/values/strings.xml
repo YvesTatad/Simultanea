@@ -6,6 +6,12 @@
     <string name="intro_text_four">Zhiole, the barren prison. Dwelling place of fallen Xelvanians, and Yhondyrrians. The prison world houses the worst of the worst of criminals and fiends.</string>
     <string name="intro_text_five"></string>
 
+    <string name="instruction_profile_button">This button takes you to your Player Profile Page.\n\nHere you will find your high score, games played, currently selected character, and many more information.</string>
+    <string name="instruction_settings_button">This button takes you to the Settings Page.\n\nHere you are able to set your Player Name, and toggle whether you would like to play as a Task Master or as a Regular Player.</string>
+    <string name="instruction_characters_button">This button takes you to the Characters Page.\n\nHere you will be able to select your Game Avatar, and view the different lore and stats of each character.</string>
+    <string name="instruction_play_button">This button takes you to the Game Lobby.\n\nHere you will be able to choose your game mode: Single Player, Multiplayer, or check instruction for playing the game.</string>
+
+
     <string name="app_name">Simultanea</string>
     <string name="preference_file_key">preferences</string>
 

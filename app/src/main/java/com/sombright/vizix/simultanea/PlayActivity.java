@@ -67,7 +67,7 @@ import static com.sombright.vizix.simultanea.MainActivity.TAG;
 
 public class PlayActivity extends ConnectionsActivity implements View.OnClickListener, PlayersViewAdapter.OnClickPlayerListener, OpenTriviaDatabase.Listener {
 
-    private int currentLevel = 0;
+    private int currentLevel = 1;
     private final static int STATE_WAITING_FOR_PLAYERS = 1;
     private final static int STATE_WAITING_FOR_QUESTION = 2;
     private final static int STATE_WAITING_FOR_ANSWER = 3;
