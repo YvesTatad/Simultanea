@@ -16,6 +16,7 @@ class PreferencesProxy {
     private static final String PREF_CHARACTER = "character";
     private static final String PREF_USE_OPEN_TRIVIA_DB = "useOpenTriviaDatabase";
     private static final String PREF_HIGH_SCORE = "highScore";
+
     // Default values
     private static final boolean DEFAULT_MULTI_PLAYER_MODE = false;
     private static final boolean DEFAULT_MULTI_PLAYER_MASTER = false;

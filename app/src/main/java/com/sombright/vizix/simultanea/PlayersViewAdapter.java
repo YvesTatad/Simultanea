@@ -56,7 +56,8 @@ class PlayersViewAdapter extends ArrayAdapter<Player> implements View.OnClickLis
             holder.imageButton.setTag(holder);
             holder.imageButton.setBackground(null);
             convertView.setTag(holder);
-        } else {
+        }
+        else {
             holder = (ViewHolder) convertView.getTag();
         }
 
