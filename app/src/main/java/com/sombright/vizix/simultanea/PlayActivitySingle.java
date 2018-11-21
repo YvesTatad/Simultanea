@@ -55,6 +55,7 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
     private GridView otherPlayersLayout;
     private TextView textViewLocalPlayer;
     private ProgressBar localPlayerHealth;
+    private ProgressBar counter;
     private ImageView localPlayerThumb;
     private ImageView leftAnimation, rightAnimation;
     private Button buttonQuestion, buttonAnswers, buttonBattle;
@@ -145,6 +146,8 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
         localPlayerThumb = findViewById(R.id.imageViewLocalPlayer);
         localPlayerHealth = findViewById(R.id.localPlayerHealth);
         localPlayerHealth.getProgressDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
+        counter.getProgressDrawable().setColorFilter(Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
+
 
         buttonQuestion.setEnabled(false);
         buttonAnswers.setEnabled(true);
@@ -410,11 +413,18 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
        mQuestionLifeSpanCounter = new CountDownTimer(10000, 1000) { // 1000 = 1 sec
             private Integer countNum = 0;
 
+
+
+
             @Override
             public void onTick(long millisUntilFinished) {
             countNum = countNum+1;
                 Log.d("QuestionLifeSpanCounter", countNum.toString());
-            }
+                int progress = (int) (millisUntilFinished/100);
+                 counter.setProgress(progress);
+
+
+       }
 
             @Override
             public void onFinish() {
