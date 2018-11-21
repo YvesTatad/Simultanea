@@ -62,10 +62,12 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
     private Handler handler = new Handler();
     private MediaPlayer mMusic;
     private Animation fadeOutAnimation;
+
     // Some variables we need to keep for the zoom-out animation
     private ImageView mOtherPlayerThumb;
     private Player mOtherPlayer;
     private boolean mWinBattle;
+
     // Translation and scale factors
     class ZoomAnimationData {
         ImageView thumb;
@@ -87,7 +89,7 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
     private OpenTriviaDatabase opentdb = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         /* Code for hiding the status bar from
@@ -677,7 +679,8 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
                 zoomImageBackToThumb(data.right, data.victim.getCharacter(), data.kill);
             }
             // Death animation takes a bit longer
-        }, data.kill ? 2000: 1000);
+        },
+                data.kill ? 2000: 1000);
     }
 
     /**

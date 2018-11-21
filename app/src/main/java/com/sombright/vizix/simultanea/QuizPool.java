@@ -37,6 +37,7 @@ class QuizPool {
         random = new Random();
         refresh();
     }
+
 //this is where the randomizer is
 
     Entry getQuestion() {
