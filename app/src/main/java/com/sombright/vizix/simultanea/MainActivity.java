@@ -161,17 +161,22 @@ public class MainActivity extends AppCompatActivity {
     };
 
     public void onClickPlay(View view) {
-        Intent intent;
-        if (view.getId() == R.id.PLAY_MULTI) {
-            if (mPrefs.isMultiPlayerMaster())
-                intent = new Intent(this, TaskMasterActivity.class);
-            else
-                intent = new Intent(this, PlayActivityMulti.class);
-        } else {
-            intent = new Intent(this, PlayActivity.class);
-        }
+        Intent intent = new Intent(this, PlayMenuActivity.class);
         startActivity(intent);
     }
+
+//    public void onClickPlay(View view) {
+//        Intent intent;
+//        if (view.getId() == R.id.PLAY_MULTI) {
+//            if (mPrefs.isMultiPlayerMaster())
+//                intent = new Intent(this, TaskMasterActivity.class);
+//            else
+//                intent = new Intent(this, PlayActivityMulti.class);
+//        } else {
+//            intent = new Intent(this, PlayActivitySingle.class);
+//        }
+//        startActivity(intent);
+//    }
 
     private View.OnLongClickListener playHoldListener = new View.OnLongClickListener() {
 

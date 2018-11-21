@@ -39,7 +39,7 @@ import java.util.Random;
 
 import static com.sombright.vizix.simultanea.MainActivity.TAG;
 
-public class PlayActivity extends AppCompatActivity implements View.OnClickListener, PlayersViewAdapter.OnClickPlayerListener, OpenTriviaDatabase.Listener {
+public class PlayActivitySingle extends AppCompatActivity implements View.OnClickListener, PlayersViewAdapter.OnClickPlayerListener, OpenTriviaDatabase.Listener {
 
     private int currentLevel = 0;
     private int amountOfCurrentLevelMobs = 0;
@@ -121,7 +121,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG, "Playing as character " + me.getCharacter());
 
         // Apply the initial layout (we will modify below)
-        setContentView(R.layout.activity_play);
+        setContentView(R.layout.activity_play_single);
 
         // These are the portions of the layout that we will modify during the game
         questionText = findViewById(R.id.questionTextView);
@@ -199,7 +199,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                     if (!mob.isPlayable()) {
                         continue;
                     }
-                    characterName = mob.getName(PlayActivity.this);
+                    characterName = mob.getName(PlayActivitySingle.this);
                     playerName = characterName;
                     if (num > 1) {
                         playerName += " " + num;

@@ -31,10 +31,11 @@
         <activity android:name=".TaskMasterActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".PlayActivity" />
+        <activity android:name=".PlayActivitySingle" />
         <activity android:name=".PlayActivityMulti" />
-        <activity android:name=".MobCharacters.MobSelectionActivity"></activity>
-        <activity android:name=".MobCharacters.MobDetailsActivity"></activity>
+        <activity android:name=".MobCharacters.MobSelectionActivity" />
+        <activity android:name=".MobCharacters.MobDetailsActivity" />
+        <activity android:name=".PlayMenuActivity"></activity>
     </application>
 
 </manifest>
