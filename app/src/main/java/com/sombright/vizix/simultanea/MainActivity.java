@@ -1,12 +1,15 @@
 package com.sombright.vizix.simultanea;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,6 +30,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT < 16) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        } else {
+            View decorView = getWindow().getDecorView();
+            // Hide the status bar.
+            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions);
+            // Remember that you should never show the action bar if the
+            // status bar is hidden, so hide that too if necessary.
+            ActionBar actionBar = getActionBar();
+            if (actionBar != null)
+                actionBar.hide();
+        }
+
         Log.d(TAG, "onCreate");
         setContentView(R.layout.activity_main);
         mPrefs = new PreferencesProxy(this);
@@ -73,6 +92,21 @@ public class MainActivity extends AppCompatActivity {
         }
         if (!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
+        }
+
+        if (Build.VERSION.SDK_INT < 16) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        } else {
+            View decorView = getWindow().getDecorView();
+            // Hide the status bar.
+            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions);
+            // Remember that you should never show the action bar if the
+            // status bar is hidden, so hide that too if necessary.
+            ActionBar actionBar = getActionBar();
+            if (actionBar != null)
+                actionBar.hide();
         }
     }
 

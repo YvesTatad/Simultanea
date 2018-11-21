@@ -1,9 +1,6 @@
 package com.sombright.vizix.simultanea;
 
-import android.Manifest;
 import android.app.ActionBar;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -13,14 +10,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +24,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -43,9 +34,7 @@ import com.sombright.vizix.simultanea.MobCharacters.MobModel;
 import com.sombright.vizix.simultanea.MobCharacters.MobPool;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import static com.sombright.vizix.simultanea.MainActivity.TAG;
@@ -53,6 +42,7 @@ import static com.sombright.vizix.simultanea.MainActivity.TAG;
 public class PlayActivity extends AppCompatActivity implements View.OnClickListener, PlayersViewAdapter.OnClickPlayerListener, OpenTriviaDatabase.Listener {
 
     private int currentLevel = 0;
+    private int amountOfCurrentLevelMobs = 0;
     private CountDownTimer mQuestionLifeSpanCounter;
     private final static int MESSAGE_DURATION_MS = 1500;
     private final static int LONG_MESSAGE_DURATION_MS = 3000;
@@ -182,7 +172,22 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         mMusic = MediaPlayer.create(this, R.raw.fight2);
         mMusic.setLooping(true);
 
-        for (int i = 0; i < 5; i++) {
+        //TODO -Yves: Replace this with a Switch Case instead of If/Else statements.
+        //TODO -Yves: For future reference, amountOfCurrentLevelMobs should count the amount of objects automatically in a Level Class and use that as its value.
+        if (currentLevel == 0){
+            amountOfCurrentLevelMobs = 3;
+        }
+        if (currentLevel == 1){
+            amountOfCurrentLevelMobs = 2;
+        }
+        if (currentLevel == 2){
+            amountOfCurrentLevelMobs = 2;
+        }
+        if (currentLevel == 3){
+            amountOfCurrentLevelMobs = 2;
+        }
+
+        for (int i = 0; i < amountOfCurrentLevelMobs; i++) {
             // Find a unique name
             String characterName = null, playerName = null;
             int num = 0; // Add a number when the name already exists
@@ -359,41 +364,41 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         // Fake receiving updates from taskmaster as other players answered
-        for (int i = 0; i < mPlayersViewAdapter.getCount(); i++) {
-            final Player player = mPlayersViewAdapter.getItem(i);
-            if (player == null) {
-                continue;
-            }
-            // Simulate other players answering within 0-10 seconds
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    // TODO: vary the likeliness that the player answered correctly based on the character
-
-                    boolean correct = random.nextBoolean();
-                    // Player sends their answer to tasks master...
-                    player.setAnswered(true);
-
-                    Log.d(TAG, "Player " + player.getName() + " answered " + (correct ? "right":"wrong"));
-
-                    if (correct || mPlayersViewAdapter.hasEveryoneAnswered()) {
-                        if (mQuestionLifeSpanCounter != null) {
-                            mQuestionLifeSpanCounter.cancel();
-                        }
-                    }
-
-                    // Taskmaster adjusts player info
-                    if (correct) {
-                        player.setPoints(player.getPoints()+1);
-                        updatePlayerInfo(player);
-                    }
-                    // Taskmaster picks another question
-                    if (correct || (me.hasAnswered() && mPlayersViewAdapter.hasEveryoneAnswered())) {
-                        pickQuestion();
-                    }
-                }
-            }, 3000 + random.nextInt(10)*1000);
-        }
+//        for (int i = 0; i < mPlayersViewAdapter.getCount(); i++) {
+//            final Player player = mPlayersViewAdapter.getItem(i);
+//            if (player == null) {
+//                continue;
+//            }
+//            // Simulate other players answering within 0-10 seconds
+//            handler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    // TODO: vary the likeliness that the player answered correctly based on the character
+//
+//                    boolean correct = random.nextBoolean();
+//                    // Player sends their answer to tasks master...
+//                    player.setAnswered(true);
+//
+//                    Log.d(TAG, "Player " + player.getName() + " answered " + (correct ? "right":"wrong"));
+//
+//                    if (correct || mPlayersViewAdapter.hasEveryoneAnswered()) {
+//                        if (mQuestionLifeSpanCounter != null) {
+//                            mQuestionLifeSpanCounter.cancel();
+//                        }
+//                    }
+//
+//                    // Taskmaster adjusts player info
+//                    if (correct) {
+//                        player.setPoints(player.getPoints()+1);
+//                        updatePlayerInfo(player);
+//                    }
+//                    // Taskmaster picks another question
+//                    if (correct || (me.hasAnswered() && mPlayersViewAdapter.hasEveryoneAnswered())) {
+//                        pickQuestion();
+//                    }
+//                }
+//            }, 3000 + random.nextInt(10)*1000);
+//        }
         showQuestionAlt();
         questionLifeSpan();
     }
@@ -829,4 +834,28 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
             pickQuestion();
         }
     }
+
+    //Prompts the user to click Back button twice to confirm going back from the current activity.
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            finish();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Current Match Data will be lost.\nPress BACK again to confirm exit.", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+
 }
