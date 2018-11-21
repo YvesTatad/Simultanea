@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/battle"
+    tools:context=".PlayMenuActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerVertical="true">
+
+        <Button
+            android:id="@+id/buttonSinglePlayerGM"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Single Player"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:onClick="onClickPlaySingle"/>
+
+        <Button
+            android:id="@+id/buttonMultiplayerGM"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Multiplayer"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:onClick="onClickPlayMulti"/>
+
+        <Button
+            android:id="@+id/buttonBattleSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Battle Settings"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:onClick="onClickBattleSettings"/>
+
+        <Button
+            android:id="@+id/buttonGameplayInformation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gameplay Information"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:onClick="onClickGameplayInformation"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

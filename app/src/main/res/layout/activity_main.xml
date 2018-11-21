@@ -67,14 +67,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="onClickPlay"
-                android:text="Play Single Player" />
+                android:text="Play" />
 
             <Button
                 android:id="@+id/PLAY_MULTI"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="onClickPlay"
-                    android:text="Play Multi-Player" />
+                android:text="Play Multi-Player"
+                android:visibility="gone"/>
 
 
             <Button
