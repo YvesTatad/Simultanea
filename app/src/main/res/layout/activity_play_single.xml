@@ -177,33 +177,6 @@
             android:text="@string/battle" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/leftAnimation"
-        android:layout_width="109dp"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:visibility="invisible"
-        tools:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/otherPlayersLayout"
-        app:layout_constraintEnd_toStartOf="@+id/rightAnimation"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/localPlayerLayout"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:srcCompat="@drawable/pump" />
-
-    <ImageView
-        android:id="@+id/rightAnimation"
-        android:layout_width="109dp"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:visibility="invisible"
-        tools:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/otherPlayersLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/leftAnimation"
-        app:layout_constraintTop_toBottomOf="@+id/localPlayerLayout"
-        app:srcCompat="@drawable/war" />
-
     <ProgressBar
         android:id="@+id/progressBar5"
         style="?android:attr/progressBarStyleHorizontal"

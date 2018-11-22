@@ -52,16 +52,16 @@ public class MobModel {
     public int getImageResource() {
         return mImageResource;
     }
-    int getImageResourceHurt() {
+    public int getImageResourceHurt() {
         return mImageResourceHurt;
     }
-    int getDeathAnimationId() {
+    public int getDeathAnimationId() {
         return mDeathAnimationId;
     }
-    int getDeadImageId() {
+    public int getDeadImageId() {
         return mDeadImageId;
     }
-    int getImageResourceAttack() {
+    public int getImageResourceAttack() {
         return mImageResourceAttack;
     }
     int getStringResourceLore() {

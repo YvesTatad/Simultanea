@@ -2,9 +2,8 @@ package com.sombright.vizix.simultanea;
 
 import android.app.ActionBar;
 import android.graphics.Color;
-import android.graphics.PointF;
-import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,11 +15,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.GridView;
@@ -43,7 +40,20 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
 
     private int currentLevel = 0;
     private int amountOfCurrentLevelMobs = 0;
-    private CountDownTimer mQuestionLifeSpanCounter;
+    private CountDownTimer mQuestionLifeSpanCounter = new CountDownTimer(10000, 1000) { // 1000 = 1 sec
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            Log.d(TAG, "mQuestionLifeSpanCounter " + millisUntilFinished/1000);
+            int progress = (int) (millisUntilFinished/100);
+            counter.setProgress(progress);
+        }
+
+        @Override
+        public void onFinish() {
+            pickQuestion();
+        }
+    };
     private final static int MESSAGE_DURATION_MS = 1500;
     private final static int LONG_MESSAGE_DURATION_MS = 3000;
     TextView questionText;
@@ -57,33 +67,11 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
     private ProgressBar localPlayerHealth;
     private ProgressBar counter;
     private ImageView localPlayerThumb;
-    private ImageView leftAnimation, rightAnimation;
     private Button buttonQuestion, buttonAnswers, buttonBattle;
     private Button buttonHeal, buttonAttack, buttonDefend;
     private Handler handler = new Handler();
     private MediaPlayer mMusic;
     private Animation fadeOutAnimation;
-
-    // Some variables we need to keep for the zoom-out animation
-    private ImageView mOtherPlayerThumb;
-    private Player mOtherPlayer;
-    private boolean mWinBattle;
-
-    // Translation and scale factors
-    class ZoomAnimationData {
-        ImageView thumb;
-        ImageView big;
-        PointF startScale = new PointF();
-        PointF startTranslation = new PointF();
-    }
-    class AttackAnimationData {
-        Player attacker, victim;
-        boolean kill;
-        ZoomAnimationData left = new ZoomAnimationData();
-        ZoomAnimationData right = new ZoomAnimationData();
-    }
-    private AttackAnimationData mAttackAnimationData = null;
-    private int mShortAnimationDuration = 500;
     private PreferencesProxy mPrefs;
 
     private QuizPool quizPool = null;
@@ -132,8 +120,6 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
         battleOptionsLayout = findViewById(R.id.battleOptionsLayout);
         otherPlayersLayout = findViewById(R.id.otherPlayersLayout);
         textViewLocalPlayer = findViewById(R.id.textViewLocalPlayer);
-        leftAnimation = findViewById(R.id.leftAnimation);
-        rightAnimation = findViewById(R.id.rightAnimation);
 
         buttonQuestion = findViewById(R.id.buttonQuestion);
         buttonAnswers = findViewById(R.id.buttonAnswers);
@@ -231,7 +217,6 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
                 player.setMobsLevelThree(characterName);
             }
             mPlayersViewAdapter.add(player);
-            updatePlayerInfo(player);
         }
 
         if (mPrefs.shouldUseOpenTriviaDatabase()) {
@@ -243,6 +228,7 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
         } else {
             quizPool = new QuizPool(this);
         }
+        Log.d(TAG, "calling pickQuestion from onStart");
         pickQuestion();
     }
 
@@ -251,8 +237,6 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
         super.onResume();
         Log.d(TAG, "onResume");
         mMusic.start();
-
-        //startDiscovering();
     }
 
     @Override
@@ -260,6 +244,7 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
         super.onPause();
         Log.d(TAG, "onPause");
         mMusic.pause();
+        mQuestionLifeSpanCounter.cancel();
 
         // Update the player profile if needed
         if (me.getPoints() > mPrefs.getHighScore()) {
@@ -317,11 +302,8 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
     }
 
     private void pickQuestion() {
-        // The previous question is over, clear-out any pending answers
-        handler.removeCallbacksAndMessages(null);
+        Log.d(TAG, "pickQuestion");
 
-        me.setAnswered(false);
-        mPlayersViewAdapter.setAnswered(false);
         QuizPool.Entry entry;
         if (opentdb != null) {
             OpenTriviaDatabase.Question question = opentdb.getQuestion();
@@ -368,88 +350,14 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
             answersLayout.addView(button);
         }
 
-        // Fake receiving updates from taskmaster as other players answered
-//        for (int i = 0; i < mPlayersViewAdapter.getCount(); i++) {
-//            final Player player = mPlayersViewAdapter.getItem(i);
-//            if (player == null) {
-//                continue;
-//            }
-//            // Simulate other players answering within 0-10 seconds
-//            handler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    // TODO: vary the likeliness that the player answered correctly based on the character
-//
-//                    boolean correct = random.nextBoolean();
-//                    // Player sends their answer to tasks master...
-//                    player.setAnswered(true);
-//
-//                    Log.d(TAG, "Player " + player.getName() + " answered " + (correct ? "right":"wrong"));
-//
-//                    if (correct || mPlayersViewAdapter.hasEveryoneAnswered()) {
-//                        if (mQuestionLifeSpanCounter != null) {
-//                            mQuestionLifeSpanCounter.cancel();
-//                        }
-//                    }
-//
-//                    // Taskmaster adjusts player info
-//                    if (correct) {
-//                        player.setPoints(player.getPoints()+1);
-//                        updatePlayerInfo(player);
-//                    }
-//                    // Taskmaster picks another question
-//                    if (correct || (me.hasAnswered() && mPlayersViewAdapter.hasEveryoneAnswered())) {
-//                        pickQuestion();
-//                    }
-//                }
-//            }, 3000 + random.nextInt(10)*1000);
-//        }
-        showQuestionAlt();
-        questionLifeSpan();
-    }
-
-    private void questionLifeSpan() {
-
-       mQuestionLifeSpanCounter = new CountDownTimer(10000, 1000) { // 1000 = 1 sec
-            private Integer countNum = 0;
-
-
-
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-            countNum = countNum+1;
-                Log.d("QuestionLifeSpanCounter", countNum.toString());
-                int progress = (int) (millisUntilFinished/100);
-                 counter.setProgress(progress);
-
-
-       }
-
-            @Override
-            public void onFinish() {
-                pickQuestion();
-                countNum = 0;
-            }
-        };
+        showQuestion(null);
         mQuestionLifeSpanCounter.start();
     }
+
     /**
      * Functions to change the content of the bottom-right box
      */
     public void showQuestion(View view) {
-        Log.d(TAG, "showQuestion");
-        answersLayout.setVisibility(View.INVISIBLE);
-        battleOptionsLayout.setVisibility(View.INVISIBLE);
-        questionText.setVisibility(View.VISIBLE);
-        questionText.bringToFront();
-        buttonQuestion.setEnabled(false);
-        buttonAnswers.setEnabled(true);
-        buttonBattle.setEnabled(true);
-        abortCombatMode();
-    }
-
-    public void showQuestionAlt() {
         Log.d(TAG, "showQuestion");
         answersLayout.setVisibility(View.INVISIBLE);
         battleOptionsLayout.setVisibility(View.INVISIBLE);
@@ -504,7 +412,6 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
 //        buttonAttack.setEnabled(false);
 //        buttonDefend.setEnabled(false);
         me.setCombatMode(Player.COMBAT_MODE_HEAL);
-        updatePlayerInfo(me);
         int cooldown = me.getCharacter().getRecovery() * 1000;
         handler.postDelayed(new Runnable() {
             @Override
@@ -513,7 +420,6 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
                     return;
                 }
                 me.setCombatMode(Player.COMBAT_MODE_NONE);
-                updatePlayerInfo(me);
                 if (me.getPoints() >= 2) {
                     buttonHeal.setEnabled(true);
                 }
@@ -534,7 +440,6 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
 //        buttonAttack.setEnabled(false);
         buttonDefend.setEnabled(false);
         me.setCombatMode(Player.COMBAT_MODE_DEFEND);
-        updatePlayerInfo(me);
         int cooldown = me.getCharacter().getRecovery() * 1000;
         handler.postDelayed(new Runnable() {
             @Override
@@ -543,7 +448,6 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
                     return;
                 }
                 me.setCombatMode(Player.COMBAT_MODE_NONE);
-                updatePlayerInfo(me);
 //                buttonHeal.setEnabled(true);
                 if (me.getPoints() >= 1) {
                     buttonAttack.setEnabled(true);
@@ -560,176 +464,80 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
     }
 
     public void buttonAttackClicked(View view) {
+
         buttonHeal.setEnabled(false);
         buttonAttack.setEnabled(false);
         buttonDefend.setEnabled(false);
         me.setCombatMode(Player.COMBAT_MODE_ATTACK);
         mPlayersViewAdapter.setClickable(true);
-        updatePlayerInfo(me);
     }
 
     private void animateAttack(Player attacker, Player victim, boolean defending, boolean killed) {
-        final AttackAnimationData data = new AttackAnimationData();
-
-        data.attacker = attacker;
-        data.victim = victim;
-        data.kill = killed;
-
+        // Animate local player
         if (attacker == me) {
-            data.left.thumb = localPlayerThumb;
+            me.setAnimation(Player.ANIMATION_ATTACK);
+        } else if (me.getHealth() <= 0) {
+            me.setAnimation(Player.ANIMATION_DYING);
         } else {
-            int position = mPlayersViewAdapter.getPosition(attacker);
-            LinearLayout item = (LinearLayout) otherPlayersLayout.getChildAt(position);
-            data.left.thumb = (ImageView) item.getChildAt(0);
+            me.setAnimation(Player.ANIMATION_HURT);
         }
-        data.left.big = leftAnimation;
+        updateLocalPlayerUi();
 
-        if (victim == me) {
-            data.right.thumb = localPlayerThumb;
-        } else {
-            int position = mPlayersViewAdapter.getPosition(victim);
-            LinearLayout item = (LinearLayout) otherPlayersLayout.getChildAt(position);
-            data.right.thumb = (ImageView) item.getChildAt(0);
-        }
-        data.right.big = rightAnimation;
+        // Animate other characters
+        for (int i = 0; i < mPlayersViewAdapter.getCount(); i++) {
+            Player player = mPlayersViewAdapter.getItem(i);
 
-        zoomImageFromThumb(data.left, null);
-        zoomImageFromThumb(data.right, new Runnable() {
-            @Override
-            public void run() {
-                doCharacterAnimation(data);
+            // This will never happen, but the check is required to make Android Studio happy
+            if (player == null) continue;
+
+            if (attacker == me && player != victim) continue;
+
+            if (attacker != me) {
+                // Prevent a zombie apocalypse
+                if (player.getHealth() <= 0) {
+                    continue;
+                }
+                player.setAnimation(Player.ANIMATION_ATTACK);
+            } else if (player.getHealth() <= 0) {
+                player.setAnimation(Player.ANIMATION_DYING);
+            } else {
+                player.setAnimation(Player.ANIMATION_HURT);
             }
-        });
-    }
-
-    /**
-     * Zoom-in animation:
-     * - hide the small thumbnail
-     * - calculate the offset and scaling required to shrink the big animation image exactly over the thumbnail
-     * - animate from the thumbnail position to the full-size animation position.
-     */
-    private void zoomImageFromThumb(ZoomAnimationData data, Runnable endAction) {
-        // Load the big zoom-in images (same as the small thumbnail images for now).
-        data.big.setImageDrawable(data.thumb.getDrawable());
-
-        // Calculate the starting and ending bounds for the zoomed-in image.
-        Rect startBounds = new Rect();
-        Rect finalBounds = new Rect();
-
-        // The start bounds are the global visible rectangle of the thumbnail,
-        // and the final bounds are the global visible rectangle of the zoomed-in image.
-        data.thumb.getGlobalVisibleRect(startBounds);
-        data.big.getGlobalVisibleRect(finalBounds);
-        // Calculate the transformations needed to make the big animation fit exactly on top of the thumbnail:
-        data.startTranslation.x = startBounds.left - finalBounds.left;
-        data.startTranslation.y = startBounds.top - finalBounds.top;
-        data.startScale.x = (float) startBounds.width() / finalBounds.width();
-        data.startScale.y = (float) startBounds.height() / finalBounds.height();
-
-        // Hide the thumbnail and show the zoomed-in view. When the animation
-        // begins, it will position the zoomed-in view in the place of the
-        // thumbnails.
-        data.thumb.setAlpha(0f);
-
-        // Apply translation and scale to cover the thumbnail
-        data.big.setTranslationX(data.startTranslation.x);
-        data.big.setTranslationY(data.startTranslation.y);
-        data.big.setScaleX(data.startScale.x);
-        data.big.setScaleY(data.startScale.y);
-        data.big.setVisibility(View.VISIBLE);
-        data.big.bringToFront();
-
-        // Set the pivot point for SCALE_X and SCALE_Y transformations
-        // to the top-left corner of the zoomed-in view (the default
-        // is the center of the view).
-        data.big.setPivotX(0f);
-        data.big.setPivotY(0f);
-
-        // Construct and run the parallel animation of the four translation and
-        // scale properties.
-        ViewPropertyAnimator anim = data.big.animate();
-        anim.translationX(0f);
-        anim.translationY(0f);
-        anim.scaleX(1f);
-        anim.scaleY(1f);
-        anim.setDuration(mShortAnimationDuration);
-        anim.setInterpolator(new DecelerateInterpolator());
-        if (endAction != null) {
-            // Schedule the next step at the end of the zoom-in animation
-            anim.withEndAction(endAction);
         }
-        anim.start();
-    }
+        mPlayersViewAdapter.notifyDataSetChanged();
 
-    /**
-     * Battle animations
-     * The attacker and the victim images are now fully zoomed-in.
-     * Time to play the attack and the hurt/death animations.
-     */
-    private void doCharacterAnimation(final AttackAnimationData data) {
-        // Victim: select between hurt and death animations
-        int resId;
-        if (data.kill) {
-            resId = data.victim.getCharacter().getDeathAnimationId();
-        } else {
-            resId = data.victim.getCharacter().getImageResourceHurt();
-        }
-        data.right.big.setImageResource(resId);
-        AnimationDrawable anim = (AnimationDrawable) data.right.big.getDrawable();
-        anim.start();
-        // Select attack animation
-        data.left.big.setImageResource(data.attacker.getCharacter().getImageResourceAttack());
-        anim = (AnimationDrawable) data.left.big.getDrawable();
-        anim.start();
-        // Let the hurt/death animation run for a certain time before zooming out
+        // Let the animation run for a bit and then do the following...
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                zoomImageBackToThumb(data.left, data.attacker.getCharacter(), false);
-                zoomImageBackToThumb(data.right, data.victim.getCharacter(), data.kill);
+                me.setAnimation(Player.ANIMATION_NORMAL);
+                updateLocalPlayerUi();
+
+                for (int i = 0; i < mPlayersViewAdapter.getCount(); i++) {
+                    Player player = mPlayersViewAdapter.getItem(i);
+
+                    // This will never happen, but the check is required to make Android Studio happy
+                    if (player == null) continue;
+
+                    player.setAnimation(Player.ANIMATION_NORMAL);
+                }
+                mPlayersViewAdapter.notifyDataSetChanged();
+//        buttonHeal.setEnabled(true);
+                if (me.getPoints() >= 1) {
+                    buttonAttack.setEnabled(true);
+                }
+                if (me.getPoints() >= 2) {
+                    buttonHeal.setEnabled(true);
+                }
+                else{
+                    buttonHeal.setEnabled(false);
+                }
+                buttonDefend.setEnabled(true);
+
+                pickQuestion();
             }
             // Death animation takes a bit longer
-        },
-                data.kill ? 2000: 1000);
-    }
-
-    /**
-     * Zoom-out animation:
-     * - Shrink the animation images back to the thumbnail position
-     */
-    private void zoomImageBackToThumb(final ZoomAnimationData data, Character character, boolean dead) {
-        // Stop the hurt or death animation
-        AnimationDrawable animationDrawable = (AnimationDrawable) data.big.getDrawable();
-        animationDrawable.stop();
-        // Zoom-out with the dead image or normal image
-        if (dead)
-            data.big.setImageResource(character.getDeadImageId());
-        else
-            data.big.setImageDrawable(data.thumb.getDrawable());
-
-        // Animate the four positioning/sizing properties in parallel,
-        // back to their original values.
-        ViewPropertyAnimator anim = data.big.animate();
-        anim.translationX(data.startTranslation.x);
-        anim.translationY(data.startTranslation.y);
-        anim.scaleX(data.startScale.x);
-        anim.scaleY(data.startScale.y);
-        anim.setDuration(mShortAnimationDuration);
-        anim.setInterpolator(new DecelerateInterpolator());
-        anim.withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                // Re-enable thumb view with the same image as the zoom-out animation
-                data.thumb.setImageDrawable(data.big.getDrawable());
-                data.thumb.setAlpha(1f);
-                data.big.setVisibility(View.INVISIBLE);
-                data.big.setTranslationX(0f);
-                data.big.setTranslationY(0f);
-                data.big.setScaleX(1f);
-                data.big.setScaleY(1f);
-            }
-        });
-        anim.start();
+        }, killed ? 3000: 2000);
     }
 
     private void finishGame() {
@@ -737,66 +545,53 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
         finish();
     }
 
+    /**
+     * This function is called when the player clicks one of the answers
+     * @param v: the button (view) that was clicked
+     */
     @Override
     public void onClick(View v) {
-        // Check if it was an answer button
+        // Verify that v is really one of the answer button:
         QuizPool.Answer answer = (QuizPool.Answer) v.getTag(R.id.id_answer);
-        if (answer != null) {
-            // First thing: prevent user from clicking other answers while we handle this one.
-            recursiveSetEnabled(false, answersLayout);
-
-            if (answer.correct || mPlayersViewAdapter.hasEveryoneAnswered()) {
-                if (mQuestionLifeSpanCounter != null) {
-                    mQuestionLifeSpanCounter.cancel();
-                }
-            }
-
-            if (answer.correct) {
-                Log.d(TAG, "Correct!");
-                questionText.setText(R.string.answer_correct);
-                v.setBackgroundColor(ColorUtils.setAlphaComponent(Color.GREEN, 150));
-            } else {
-                Log.d(TAG, "Incorrect!");
-                questionText.setText(R.string.answer_incorrect);
-                v.setBackgroundColor(ColorUtils.setAlphaComponent(Color.RED, 150));
-            }
-            me.setAnswered(true);
-            if (answer.correct) {
-                // Simulate task master sending us updated points
-                me.setPoints(me.getPoints()+1);
-                updatePlayerInfo(me);
-            }
-            if (mPlayersViewAdapter.hasEveryoneAnswered()) {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        pickQuestion();
-                    }
-                }, 500);
-            }
+        if (answer == null) {
+            Log.e(TAG, "Unhandled click on " + v);
             return;
         }
 
-        Log.e(TAG, "Unhandled click on " + v);
-    }
+        // Abort timer
+        Log.e(TAG, "Aborting timer");
+        mQuestionLifeSpanCounter.cancel();
 
-    private void updatePlayerInfo(Player player) {
-        Log.d(TAG, "updatePlayerInfo");
+        // Prevent user from clicking other answers while we handle this one.
+        recursiveSetEnabled(false, answersLayout);
 
-        if (player == me) {
-            updateLocalPlayerUi();
-            if (me.getPoints() != 0) {
-                buttonAttack.setEnabled(true);
-            }
+        if (answer.correct) {
+            Log.d(TAG, "Correct!");
+            v.setBackgroundColor(ColorUtils.setAlphaComponent(Color.GREEN, 150));
         } else {
-            mPlayersViewAdapter.notifyDataSetChanged();
+            Log.d(TAG, "Incorrect!");
+            v.setBackgroundColor(ColorUtils.setAlphaComponent(Color.RED, 150));
         }
+        if (answer.correct) {
+            // Simulate task master sending us updated points
+            me.setPoints(me.getPoints()+1);
+        }
+        Log.d(TAG, "calling pickQuestion from onClick");
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "Picking a new question after answering");
+                pickQuestion();
+            }
+        }, 500);
     }
 
     @Override
     public void onClickPlayer(Player victim) {
         Log.v(TAG, "onClickPlayer: " + victim.getName());
-        // Check if it was a player button
+
+        mQuestionLifeSpanCounter.cancel();
+
         mPlayersViewAdapter.setClickable(false);
         boolean defending = victim.getCombatMode() == Player.COMBAT_MODE_DEFEND;
         int damage = me.getCharacter().getAttack();
@@ -817,19 +612,6 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
         // Attacking is not free...
         me.setPoints(me.getPoints()-1);
         animateAttack(me, victim, defending, killed);
-        updatePlayerInfo(victim);
-        updatePlayerInfo(me);
-//        buttonHeal.setEnabled(true);
-        if (me.getPoints() >= 1) {
-            buttonAttack.setEnabled(true);
-        }
-        if (me.getPoints() >= 2) {
-            buttonHeal.setEnabled(true);
-        }
-        else{
-            buttonHeal.setEnabled(false);
-        }
-        buttonDefend.setEnabled(true);
     }
 
 
@@ -844,6 +626,7 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
     public void onQuestionsAvailable(boolean available) {
         if (available && waitingForQuestion) {
             waitingForQuestion = false;
+            Log.d(TAG, "calling pickQuestion from onQuestionsAvailable");
             pickQuestion();
         }
     }

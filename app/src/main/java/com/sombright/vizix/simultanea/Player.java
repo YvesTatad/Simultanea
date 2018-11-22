@@ -24,13 +24,20 @@ public class Player {
     static final int COMBAT_MODE_ATTACK = 1;
     static final int COMBAT_MODE_DEFEND = 2;
     static final int COMBAT_MODE_HEAL = 3;
+
+    static final int ANIMATION_NORMAL = 0;
+    static final int ANIMATION_ATTACK = 1;
+    static final int ANIMATION_HURT = 2;
+    static final int ANIMATION_DYING = 3;
+
     private final Context mContext;
     private Endpoint mEndpoint;
     private String mUniqueID;
     private String mName;
     private MobModel mMob;
     private Character mCharacter;
-    private AnimationDrawable mAnimation;
+    private AnimationDrawable mAnimation, mAnimationAttack, mAnimationHurt, mAnimationDying;
+    private int mCurrentAnimation;
     private int mHealth;
     private boolean mAnswered;
     private int mPoints;
@@ -43,6 +50,7 @@ public class Player {
         mAnswered = false;
         mPoints = 0;
         mCombatMode = COMBAT_MODE_NONE;
+        mCurrentAnimation = ANIMATION_NORMAL;
     }
 
     Endpoint getEndpoint() {
@@ -222,12 +230,66 @@ public class Player {
     }
 
     public AnimationDrawable getAnimation() {
-        if (mAnimation == null && mMob != null) {
-            mAnimation = (AnimationDrawable) ContextCompat.getDrawable(mContext, mMob.getImageResource());
-        } else if (mAnimation == null && mCharacter != null) {
-            mAnimation = (AnimationDrawable) ContextCompat.getDrawable(mContext, mCharacter.getImageResource());
+        if (mMob != null) {
+            // One of the other players
+            switch (mCurrentAnimation) {
+                case ANIMATION_NORMAL:
+                    if (mAnimation == null) {
+                        mAnimation = (AnimationDrawable) ContextCompat.getDrawable(mContext, mMob.getImageResource());
+                    }
+                    return mAnimation;
+                case ANIMATION_ATTACK:
+                    if (mAnimationAttack == null) {
+                        mAnimationAttack = (AnimationDrawable) ContextCompat.getDrawable(mContext, mMob.getImageResourceAttack());
+                    }
+                    return mAnimationAttack;
+                case ANIMATION_HURT:
+                    if (mAnimationHurt == null) {
+                        mAnimationHurt = (AnimationDrawable) ContextCompat.getDrawable(mContext, mMob.getImageResourceHurt());
+                    }
+                    return mAnimationHurt;
+                case ANIMATION_DYING:
+                    if (mAnimationDying == null) {
+                        mAnimationDying = (AnimationDrawable) ContextCompat.getDrawable(mContext, mMob.getDeathAnimationId());
+                    }
+                    return mAnimationDying;
+            }
+        } else if (mCharacter != null) {
+            // The local player
+            switch (mCurrentAnimation) {
+                case ANIMATION_NORMAL:
+                    if (mAnimation == null) {
+                        mAnimation = (AnimationDrawable) ContextCompat.getDrawable(mContext, mCharacter.getImageResource());
+                    }
+                    return mAnimation;
+                case ANIMATION_ATTACK:
+                    if (mAnimationAttack == null) {
+                        mAnimationAttack = (AnimationDrawable) ContextCompat.getDrawable(mContext, mCharacter.getImageResourceAttack());
+                    }
+                    return mAnimationAttack;
+                case ANIMATION_HURT:
+                    if (mAnimationHurt == null) {
+                        mAnimationHurt = (AnimationDrawable) ContextCompat.getDrawable(mContext, mCharacter.getImageResourceHurt());
+                    }
+                    return mAnimationHurt;
+                case ANIMATION_DYING:
+                    if (mAnimationDying == null) {
+                        mAnimationDying = (AnimationDrawable) ContextCompat.getDrawable(mContext, mCharacter.getDeathAnimationId());
+                    }
+                    return mAnimationDying;
+            }
         }
-        return mAnimation;
+
+        Log.wtf(TAG, "No animation?");
+        return null;
+    }
+
+    public boolean animationInProgress() {
+        return mCurrentAnimation != ANIMATION_NORMAL;
+    }
+
+    public void setAnimation(int a) {
+        mCurrentAnimation = a;
     }
 
     int getCombatMode() {
