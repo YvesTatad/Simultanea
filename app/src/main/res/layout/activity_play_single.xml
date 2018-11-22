@@ -162,6 +162,15 @@
             android:onClick="showQuestion"
             android:text="@string/question" />
 
+        <ProgressBar
+            android:id="@+id/counter"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:progress="100" />
+
         <Button
             android:id="@+id/buttonAnswers"
             android:layout_width="match_parent"

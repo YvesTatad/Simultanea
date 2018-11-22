@@ -132,6 +132,7 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
         localPlayerThumb = findViewById(R.id.imageViewLocalPlayer);
         localPlayerHealth = findViewById(R.id.localPlayerHealth);
         localPlayerHealth.getProgressDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
+        counter = findViewById(R.id.counter);
         counter.getProgressDrawable().setColorFilter(Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
 
 
