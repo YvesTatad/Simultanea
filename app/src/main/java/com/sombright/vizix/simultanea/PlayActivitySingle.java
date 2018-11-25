@@ -121,8 +121,8 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
         Log.d(TAG, "Playing as character " + me.getCharacter());
 
         // Apply the initial layout (we will modify below)
-        setContentView(R.layout.activity_play_single);
-
+        setContentView(R.layout.activity_play_single)
+;
         // These are the portions of the layout that we will modify during the game
         questionText = findViewById(R.id.questionTextView);
         answersLayout = findViewById(R.id.answersLayout);
@@ -364,41 +364,41 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
         }
 
         // Fake receiving updates from taskmaster as other players answered
-//        for (int i = 0; i < mPlayersViewAdapter.getCount(); i++) {
-//            final Player player = mPlayersViewAdapter.getItem(i);
-//            if (player == null) {
-//                continue;
-//            }
-//            // Simulate other players answering within 0-10 seconds
-//            handler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    // TODO: vary the likeliness that the player answered correctly based on the character
-//
-//                    boolean correct = random.nextBoolean();
-//                    // Player sends their answer to tasks master...
-//                    player.setAnswered(true);
-//
-//                    Log.d(TAG, "Player " + player.getName() + " answered " + (correct ? "right":"wrong"));
-//
-//                    if (correct || mPlayersViewAdapter.hasEveryoneAnswered()) {
-//                        if (mQuestionLifeSpanCounter != null) {
-//                            mQuestionLifeSpanCounter.cancel();
-//                        }
-//                    }
-//
-//                    // Taskmaster adjusts player info
-//                    if (correct) {
-//                        player.setPoints(player.getPoints()+1);
-//                        updatePlayerInfo(player);
-//                    }
-//                    // Taskmaster picks another question
-//                    if (correct || (me.hasAnswered() && mPlayersViewAdapter.hasEveryoneAnswered())) {
-//                        pickQuestion();
-//                    }
-//                }
-//            }, 3000 + random.nextInt(10)*1000);
-//        }
+        for (int i = 0; i < mPlayersViewAdapter.getCount(); i++) {
+            final Player player = mPlayersViewAdapter.getItem(i);
+            if (player == null) {
+                continue;
+            }
+            // Simulate other players answering within 0-10 seconds
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // TODO: vary the likeliness that the player answered correctly based on the character
+
+                    boolean correct = random.nextBoolean();
+                    // Player sends their answer to tasks master...
+                    player.setAnswered(true);
+
+                    Log.d(TAG, "Player " + player.getName() + " answered " + (correct ? "right":"wrong"));
+
+                    if (correct /*|| mPlayersViewAdapter.hasEveryoneAnswered()*/) {
+                        if (mQuestionLifeSpanCounter != null) {
+                            mQuestionLifeSpanCounter.cancel();
+                        }
+                    }
+
+                    // Taskmaster adjusts player info
+                    if (correct) {
+                        player.setPoints(player.getPoints()+1);
+                        updatePlayerInfo(player);
+                    }
+                    // Taskmaster picks another question
+                    if (correct || (me.hasAnswered() /*&& mPlayersViewAdapter.hasEveryoneAnswered()*/)) {
+                        pickQuestion();
+                    }
+                }
+            }, 3000 + random.nextInt(10)*1000);
+        }
         showQuestionAlt();
         questionLifeSpan();
     }

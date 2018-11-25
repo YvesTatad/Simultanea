@@ -34,7 +34,7 @@ public class Character extends CharacterPool {
         mPlayable = playable;
 
     }
- // comment hahahaha
+
     int getStringResourceName() {
         return mStringResourceName;
     }
