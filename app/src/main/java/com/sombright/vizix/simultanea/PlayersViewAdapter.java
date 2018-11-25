@@ -56,13 +56,14 @@ class PlayersViewAdapter extends ArrayAdapter<Player> implements View.OnClickLis
             holder.imageButton.setTag(holder);
             holder.imageButton.setBackground(null);
             convertView.setTag(holder);
-        } else {
+        }
+        else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         final Player player = getItem(position);
         boolean dead = player.getHealth() == 0;
-        if (dead) {
+        if (dead && !player.animationInProgress()) {
             Character character = player.getCharacter();
             if (character == null) {
                 holder.imageButton.setImageResource(R.mipmap.ic_launcher);

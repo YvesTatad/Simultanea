@@ -23,7 +23,7 @@ public class MobPool{
             new com.sombright.vizix.simultanea.MobCharacters.MobModel(
                     R.string.slime_name,
                     R.drawable.slime_stand,
-                    R.drawable.bluepanda_hurt,
+                    R.drawable.slime_hurt,
                     R.drawable.slime_death, R.drawable.slime_death22,
                     R.drawable.bluepanda_attack,
                     R.string.Slime_Description,
