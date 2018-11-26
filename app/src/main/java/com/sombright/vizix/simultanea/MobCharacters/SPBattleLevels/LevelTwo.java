@@ -23,7 +23,7 @@ public class LevelTwo{
                     100, 5,30, 10, true)
     };
     private static final int DEFAULT_MOB_INDEX = 0;
-    static com.sombright.vizix.simultanea.MobCharacters.MobModel getDefaultMobLevelTwo() {
+    public static com.sombright.vizix.simultanea.MobCharacters.MobModel getDefaultMobLevelTwo() {
         return mobListLevelTwo[DEFAULT_MOB_INDEX];
     }
 }

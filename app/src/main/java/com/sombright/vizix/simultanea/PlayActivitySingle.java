@@ -38,7 +38,7 @@ import static com.sombright.vizix.simultanea.MainActivity.TAG;
 
 public class PlayActivitySingle extends AppCompatActivity implements View.OnClickListener, PlayersViewAdapter.OnClickPlayerListener, OpenTriviaDatabase.Listener {
 
-    private int currentLevel = 0;
+    private int currentLevel = 4;
     private int amountOfCurrentLevelMobs = 0;
     private CountDownTimer mQuestionLifeSpanCounter = new CountDownTimer(10000, 1000) { // 1000 = 1 sec
 
@@ -178,6 +178,9 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
         if (currentLevel == 3){
             amountOfCurrentLevelMobs = 2;
         }
+        if (currentLevel == 4){
+            amountOfCurrentLevelMobs = 5;
+        }
 
         for (int i = 0; i < amountOfCurrentLevelMobs; i++) {
             // Find a unique name
@@ -216,6 +219,9 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
             }
             if(currentLevel == 3){
                 player.setMobsLevelThree(characterName);
+            }
+            if(currentLevel == 4){
+                player.setMobsLevelFour(characterName);
             }
             mPlayersViewAdapter.add(player);
         }
@@ -352,6 +358,7 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
         }
 
         showQuestion(null);
+        updateLocalPlayerUi();
         mQuestionLifeSpanCounter.start();
     }
 

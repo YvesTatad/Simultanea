@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 class PlayersViewAdapter extends ArrayAdapter<Player> implements View.OnClickListener {
 
     private static final String TAG = "PlayersViewAdapter";
@@ -66,16 +68,20 @@ class PlayersViewAdapter extends ArrayAdapter<Player> implements View.OnClickLis
         if (dead && !player.animationInProgress()) {
             Character character = player.getCharacter();
             if (character == null) {
-                holder.imageButton.setImageResource(R.mipmap.ic_launcher);
+//                holder.imageButton.setImageResource(R.mipmap.ic_launcher);
+                Picasso.get().load(R.mipmap.ic_launcher).fit().centerCrop().into(holder.imageButton);
             } else {
-                holder.imageButton.setImageResource(character.getDeadImageId());
+//                holder.imageButton.setImageResource(character.getDeadImageId());
+                Picasso.get().load(character.getDeadImageId()).fit().centerCrop().into(holder.imageButton);
             }
         } else {
             AnimationDrawable animationDrawable = player.getAnimation();
             if (animationDrawable == null) {
-                holder.imageButton.setImageResource(R.mipmap.ic_launcher);
+//                holder.imageButton.setImageResource(R.mipmap.ic_launcher);
+                Picasso.get().load(R.mipmap.ic_launcher).fit().centerCrop().into(holder.imageButton);
             } else {
                 holder.imageButton.setImageDrawable(animationDrawable);
+//                Picasso.get().load(animationDrawable).fit().centerCrop().into(holder.imageButton);
                 animationDrawable.start();
             }
         }

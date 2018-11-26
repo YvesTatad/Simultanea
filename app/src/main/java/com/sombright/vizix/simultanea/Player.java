@@ -9,6 +9,7 @@ import android.util.Log;
 import com.sombright.vizix.simultanea.ConnectionsActivity.Endpoint;
 import com.sombright.vizix.simultanea.MobCharacters.MobModel;
 import com.sombright.vizix.simultanea.MobCharacters.MobPool;
+import com.sombright.vizix.simultanea.MobCharacters.SPBattleLevels.LevelFour;
 import com.sombright.vizix.simultanea.MobCharacters.SPBattleLevels.LevelOne;
 import com.sombright.vizix.simultanea.MobCharacters.SPBattleLevels.LevelThree;
 import com.sombright.vizix.simultanea.MobCharacters.SPBattleLevels.LevelTwo;
@@ -91,6 +92,10 @@ public class Player {
             return name;
         }
         name = getMobsLevelThreeName();
+        if (name != null) {
+            return name;
+        }
+        name = getMobsLevelFourName();
         if (name != null) {
             return name;
         }
@@ -177,7 +182,7 @@ public class Player {
         }
         if (mMob == null) {
             Log.e(TAG, "Unknown mob " + name + ". Using default instead.");
-            mMob = MobPool.getDefaultMob();
+            mMob = LevelTwo.getDefaultMobLevelTwo();
         }
     }
 
@@ -198,11 +203,32 @@ public class Player {
         }
         if (mMob == null) {
             Log.e(TAG, "Unknown mob " + name + ". Using default instead.");
-            mMob = MobPool.getDefaultMob();
+            mMob = LevelThree.getDefaultMobLevelThree();
         }
     }
 
     public String getMobsLevelThreeName() {
+        return mMob.getName(mContext);
+    }
+
+    public MobModel getMobsLevelFour() {
+        return mMob;
+    }
+
+    public void setMobsLevelFour(String name) {
+        for (MobModel mob : LevelFour.mobListLevelFour) {
+            if (mob.getName(mContext).equals(name)) {
+                mMob = mob;
+                return;
+            }
+        }
+        if (mMob == null) {
+            Log.e(TAG, "Unknown mob " + name + ". Using default instead.");
+            mMob = LevelFour.getDefaultMobLevelFour();
+        }
+    }
+
+    public String getMobsLevelFourName() {
         return mMob.getName(mContext);
     }
 
