@@ -2,6 +2,7 @@ package com.sombright.vizix.simultanea;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -48,9 +50,13 @@ public class MainActivity extends AppCompatActivity {
                 actionBar.hide();
         }
 
+
+
+
         Log.d(TAG, "onCreate");
         setContentView(R.layout.activity_main);
         mPrefs = new PreferencesProxy(this);
+
 
         instructionTextView = findViewById(R.id.instruction_text);
         instructionView = findViewById(R.id.instruction_view);
@@ -82,9 +88,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, IntroActivity.class);
             startActivity(intent);
         }
+
+
+
     }
 
-    @Override
+        @Override
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");

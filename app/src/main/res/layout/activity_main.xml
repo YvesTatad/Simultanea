@@ -1,116 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@+id/background_lava"
+android:paddingBottom="@dimen/activity_vertical_margin"
+android:paddingLeft="@dimen/activity_horizontal_margin"
+android:paddingRight="@dimen/activity_horizontal_margin"
+android:paddingTop="@dimen/activity_vertical_margin"
+tools:context="com.sombright.vizix.simultanea.MainActivity">
+
+<RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/homebkg"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.sombright.vizix.simultanea.MainActivity">
+    android:layout_height="250dp"
+    android:id="@+id/instruction_view"
+    android:visibility="gone">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:id="@+id/instruction_view"
-        android:visibility="gone">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#000000"
-            android:alpha="0.75"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center_horizontal"
-            android:id="@+id/instruction_text"
-            android:textSize="22sp"
-            />
-
-    </RelativeLayout>
-
-    <LinearLayout
+    <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:gravity="right"
-        android:orientation="vertical"
-        android:layout_marginTop="239dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true">
+        android:background="#000000"
+        android:alpha="0.75"
+        />
 
-        <LinearLayout
-            android:id="@+id/Top_row"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:id="@+id/instruction_text"
+        android:textSize="22sp"
+        />
 
-        </LinearLayout>
+</RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/center_row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:orientation="vertical">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:gravity="right"
+    android:orientation="vertical"
+    android:layout_marginTop="239dp"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentLeft="true">
 
-            <Button
-                android:id="@+id/PLAY"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClickPlay"
-                android:text="Play" />
-
-            <Button
-                android:id="@+id/PLAY_MULTI"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClickPlay"
-                android:text="Play Multi-Player"
-                android:visibility="gone"/>
-
-
-            <Button
-                android:id="@+id/CHARACTERS"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClickCharacters"
-                android:text="CHARACTERS" />
-
-            <Button
-                android:id="@+id/SETTINGS"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClickSettings"
-                android:text="SETTINGS" />
-
-            <Button
-                android:id="@+id/PROFILE"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClickProfile"
-                android:text="PROFILE" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/bottom_row"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:baselineAligned="false"
-            android:gravity="bottom"
-            android:orientation="horizontal">
-
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/Top_row"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/center_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/PLAY"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickPlay"
+            android:text="Play" />
+
+        <Button
+            android:id="@+id/PLAY_MULTI"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickPlay"
+            android:text="Play Multi-Player"
+            android:visibility="gone"/>
+
+
+        <Button
+            android:id="@+id/CHARACTERS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickCharacters"
+            android:text="CHARACTERS" />
+
+        <Button
+            android:id="@+id/SETTINGS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickSettings"
+            android:text="SETTINGS" />
+
+        <Button
+            android:id="@+id/PROFILE"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickProfile"
+            android:text="PROFILE" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_row"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
+</LinearLayout>
 
 </RelativeLayout>
