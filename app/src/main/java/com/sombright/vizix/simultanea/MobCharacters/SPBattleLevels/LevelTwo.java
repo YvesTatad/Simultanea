@@ -8,16 +8,16 @@ public class LevelTwo{
             new com.sombright.vizix.simultanea.MobCharacters.MobModel(
                     R.string.goblin_name,
                     R.drawable.goblin_stand,
-                    R.drawable.bluepanda_hurt,
-                    R.drawable.bluepanda_death, R.drawable.bluepanda_death21,
+                    R.drawable.goblin_hurt,
+                    R.drawable.goblin_death, R.drawable.goblin_death22,
                     R.drawable.goblin_attack,
                     R.string.Goblin_Description,
                     100, 5,30, 10, true),
             new com.sombright.vizix.simultanea.MobCharacters.MobModel(
                     R.string.skeleton_name,
                     R.drawable.skeleton_stand,
-                    R.drawable.bluepanda_hurt,
-                    R.drawable.bluepanda_death, R.drawable.bluepanda_death21,
+                    R.drawable.skeleton_hurt,
+                    R.drawable.skeleton_death, R.drawable.skeleton_death15,
                     R.drawable.skeleton_attack,
                     R.string.Skeleton_Description,
                     100, 5,30, 10, true)

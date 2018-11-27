@@ -38,7 +38,7 @@ import static com.sombright.vizix.simultanea.MainActivity.TAG;
 
 public class PlayActivitySingle extends AppCompatActivity implements View.OnClickListener, PlayersViewAdapter.OnClickPlayerListener, OpenTriviaDatabase.Listener {
 
-    private int currentLevel = 4;
+    private int currentLevel = 2;
     private int amountOfCurrentLevelMobs = 0;
     private CountDownTimer mQuestionLifeSpanCounter = new CountDownTimer(10000, 1000) { // 1000 = 1 sec
 
