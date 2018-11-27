@@ -9,6 +9,9 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private String profilePlayerName;
@@ -46,7 +49,9 @@ public class ProfileActivity extends AppCompatActivity {
         textView.setText("High Score: " + mPrefs.getHighScore());
 
         profileCharacterImage = findViewById(R.id.profileCharacterImage);
-//        profileCharacterImage.setImageResource();
+        Glide.with(this)
+                .load(R.drawable.bluepanda)
+                .into(profileCharacterImage);
         //TODO -Yves: Set a dynamic profile avatar based on picked Character.
         //TODO -Yves: Enable animated images for Profile Avatar.
     }

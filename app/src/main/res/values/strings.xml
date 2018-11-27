@@ -4,7 +4,11 @@
     <string name="intro_text_two">Xelvana, the divine land of the skys. Home to the heavenly beings who feel they have the need to oversee other life in the realm.</string>
     <string name="intro_text_three">Yhondyrr, the world of plenty. Different races, different faces, different places, and resources can be found in this bountiful world. But with that bountifulness comes diversity. Both sides of the coin of good and evil can be found here.</string>
     <string name="intro_text_four">Zhiole, the barren prison. Dwelling place of fallen Xelvanians, and Yhondyrrians. The prison world houses the worst of the worst of criminals and fiends.</string>
-    <string name="intro_text_five"></string>
+    <string name="intro_text_five">The three worlds collide when World Warp Portals appear around the world, tethering them to one another.</string>
+    <string name="intro_text_six">Will Xelvana be capable of maintaining the order between the three worlds?</string>
+    <string name="intro_text_seven">With the possible return of its banished people, and considering the untrodden portal phenomena; what would happen to Yhondyrr?</string>
+    <string name="intro_text_eight">What kind of havoc would the denizens of Zhiole wreak around the realm; will the other worlds find a way to contain them securely?</string>
+    <string name="intro_text_nine">Interact, learn, and explore to know what befalls the Realm of Simultanea.</string>
 
     <string name="instruction_profile_button">This button takes you to your Player Profile Page.\n\nHere you will find your high score, games played, currently selected character, and many more information.</string>
     <string name="instruction_settings_button">This button takes you to the Settings Page.\n\nHere you are able to set your Player Name, and toggle whether you would like to play as a Task Master or as a Regular Player.</string>

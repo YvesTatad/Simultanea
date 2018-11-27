@@ -26,5 +26,132 @@
         android:lineSpacingExtra="6dp"
         />
 
+    <TextView
+        android:id="@+id/introText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/intro_text_two"
+        android:visibility="gone"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:textSize="18sp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:lineSpacingMultiplier="1.5"
+        android:lineSpacingExtra="6dp"
+        />
+
+    <TextView
+        android:id="@+id/introText3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/intro_text_three"
+        android:visibility="gone"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:textSize="18sp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:lineSpacingMultiplier="1.5"
+        android:lineSpacingExtra="6dp"
+        />
+
+    <TextView
+        android:id="@+id/introText4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/intro_text_four"
+        android:visibility="gone"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:textSize="18sp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:lineSpacingMultiplier="1.5"
+        android:lineSpacingExtra="6dp"
+        />
+
+    <TextView
+        android:id="@+id/introText5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/intro_text_five"
+        android:visibility="gone"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:textSize="18sp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:lineSpacingMultiplier="1.5"
+        android:lineSpacingExtra="6dp"
+        />
+
+    <TextView
+        android:id="@+id/introText6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/intro_text_six"
+        android:visibility="gone"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:textSize="18sp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:lineSpacingMultiplier="1.5"
+        android:lineSpacingExtra="6dp"
+        />
+
+    <TextView
+        android:id="@+id/introText7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/intro_text_seven"
+        android:visibility="gone"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:textSize="18sp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:lineSpacingMultiplier="1.5"
+        android:lineSpacingExtra="6dp"
+        />
+
+    <TextView
+        android:id="@+id/introText8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/intro_text_eight"
+        android:visibility="gone"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:textSize="18sp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:lineSpacingMultiplier="1.5"
+        android:lineSpacingExtra="6dp"
+        />
+
+    <TextView
+        android:id="@+id/introText9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/intro_text_nine"
+        android:visibility="gone"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:textSize="18sp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:lineSpacingMultiplier="1.5"
+        android:lineSpacingExtra="6dp"
+        />
 
 </RelativeLayout>

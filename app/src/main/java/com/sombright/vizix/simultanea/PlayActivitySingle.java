@@ -3,7 +3,6 @@ package com.sombright.vizix.simultanea;
 import android.app.ActionBar;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,8 +37,10 @@ import static com.sombright.vizix.simultanea.MainActivity.TAG;
 
 public class PlayActivitySingle extends AppCompatActivity implements View.OnClickListener, PlayersViewAdapter.OnClickPlayerListener, OpenTriviaDatabase.Listener {
 
-    private int currentLevel = 2;
+    private int currentLevel = 1;
     private int amountOfCurrentLevelMobs = 0;
+    private int mobsToKill = 0;
+    private int mobsKilledInLevel = 0;
     private CountDownTimer mQuestionLifeSpanCounter = new CountDownTimer(10000, 1000) { // 1000 = 1 sec
 
         @Override
@@ -73,6 +74,7 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
     private MediaPlayer mMusic;
     private Animation fadeOutAnimation;
     private PreferencesProxy mPrefs;
+    private TextView currentLevelDisplay, abilityPointDisplay;
 
     private QuizPool quizPool = null;
     private OpenTriviaDatabase opentdb = null;
@@ -135,6 +137,8 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
         counter = findViewById(R.id.counter);
         counter.getProgressDrawable().setColorFilter(Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
 
+        abilityPointDisplay = findViewById(R.id.abilityPointsInt);
+        currentLevelDisplay = findViewById(R.id.currentLevelInt);
 
         buttonQuestion.setEnabled(false);
         buttonAnswers.setEnabled(true);
@@ -154,6 +158,21 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
 
         questionText.setText(R.string.waiting_for_master);
         answersLayout.removeAllViews();
+
+        spawnCharacters();
+
+        if (mPrefs.shouldUseOpenTriviaDatabase()) {
+            opentdb = new OpenTriviaDatabase(this);
+            opentdb.setQuestionAttributes(OpenTriviaDatabase.CATEGORY_ANY,
+                    OpenTriviaDatabase.DIFFICULTY_ANY,
+                    OpenTriviaDatabase.TYPE_ANY);
+            opentdb.setListener(this);
+        } else {
+            quizPool = new QuizPool(this);
+        }
+        Log.d(TAG, "calling pickQuestion from onCreate");
+        pickQuestion();
+
     }
 
     @Override
@@ -166,77 +185,83 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
 
         //TODO -Yves: Replace this with a Switch Case instead of If/Else statements.
         //TODO -Yves: For future reference, amountOfCurrentLevelMobs should count the amount of objects automatically in a Level Class and use that as its value.
-        if (currentLevel == 0){
-            amountOfCurrentLevelMobs = 3;
-        }
-        if (currentLevel == 1){
-            amountOfCurrentLevelMobs = 2;
-        }
-        if (currentLevel == 2){
-            amountOfCurrentLevelMobs = 2;
-        }
-        if (currentLevel == 3){
-            amountOfCurrentLevelMobs = 2;
-        }
-        if (currentLevel == 4){
-            amountOfCurrentLevelMobs = 5;
-        }
 
-        for (int i = 0; i < amountOfCurrentLevelMobs; i++) {
-            // Find a unique name
-            String characterName = null, playerName = null;
-            int num = 0; // Add a number when the name already exists
-            Player player = null;
-            do {
-                num++;
-                for (MobModel mob: MobPool.mobList) {
-                    // Skip unplayable characters
-                    if (!mob.isPlayable()) {
-                        continue;
-                    }
-                    characterName = mob.getName(PlayActivitySingle.this);
-                    playerName = characterName;
-                    if (num > 1) {
-                        playerName += " " + num;
-                    }
-                    player = mPlayersViewAdapter.getPlayerByName(playerName);
-                    if (player == null) {
-                        break;
-                    }
-                }
-            } while (player != null);
-            player = new Player(this);
-            player.setName(playerName);
-            if(currentLevel == 0){
-                player.setMob(characterName);
-            }
-
-            if(currentLevel == 1){
-                player.setMobsLevelOne(characterName);
-            }
-            if(currentLevel == 2){
-                player.setMobsLevelTwo(characterName);
-            }
-            if(currentLevel == 3){
-                player.setMobsLevelThree(characterName);
-            }
-            if(currentLevel == 4){
-                player.setMobsLevelFour(characterName);
-            }
-            mPlayersViewAdapter.add(player);
-        }
-
-        if (mPrefs.shouldUseOpenTriviaDatabase()) {
-            opentdb = new OpenTriviaDatabase(this);
-            opentdb.setQuestionAttributes(OpenTriviaDatabase.CATEGORY_ANY,
-                    OpenTriviaDatabase.DIFFICULTY_ANY,
-                    OpenTriviaDatabase.TYPE_ANY);
-            opentdb.setListener(this);
-        } else {
-            quizPool = new QuizPool(this);
-        }
-        Log.d(TAG, "calling pickQuestion from onStart");
-        pickQuestion();
+//        if (currentLevel == 0){
+//            amountOfCurrentLevelMobs = 3;
+//            mobsToKill = amountOfCurrentLevelMobs;
+//        }
+//        if (currentLevel == 1){
+//            amountOfCurrentLevelMobs = 2;
+//            mobsToKill = amountOfCurrentLevelMobs;
+//        }
+//        if (currentLevel == 2){
+//            amountOfCurrentLevelMobs = 2;
+//            mobsToKill = amountOfCurrentLevelMobs;
+//        }
+//        if (currentLevel == 3){
+//            amountOfCurrentLevelMobs = 2;
+//            mobsToKill = amountOfCurrentLevelMobs;
+//        }
+//        if (currentLevel == 4){
+//            amountOfCurrentLevelMobs = 5;
+//            mobsToKill = amountOfCurrentLevelMobs;
+//        }
+//
+//        for (int i = 0; i < amountOfCurrentLevelMobs; i++) {
+//            // Find a unique name
+//            String characterName = null, playerName = null;
+//            int num = 0; // Add a number when the name already exists
+//            Player player = null;
+//            do {
+//                num++;
+//                for (MobModel mob: MobPool.mobList) {
+//                    // Skip unplayable characters
+//                    if (!mob.isPlayable()) {
+//                        continue;
+//                    }
+//                    characterName = mob.getName(PlayActivitySingle.this);
+//                    playerName = characterName;
+//                    if (num > 1) {
+//                        playerName += " " + num;
+//                    }
+//                    player = mPlayersViewAdapter.getPlayerByName(playerName);
+//                    if (player == null) {
+//                        break;
+//                    }
+//                }
+//            } while (player != null);
+//            player = new Player(this);
+//            player.setName(playerName);
+//            if(currentLevel == 0){
+//                player.setMob(characterName);
+//            }
+//
+//            if(currentLevel == 1){
+//                player.setMobsLevelOne(characterName);
+//            }
+//            if(currentLevel == 2){
+//                player.setMobsLevelTwo(characterName);
+//            }
+//            if(currentLevel == 3){
+//                player.setMobsLevelThree(characterName);
+//            }
+//            if(currentLevel == 4){
+//                player.setMobsLevelFour(characterName);
+//            }
+//            mPlayersViewAdapter.add(player);
+//        }
+//
+//        if (mPrefs.shouldUseOpenTriviaDatabase()) {
+//            opentdb = new OpenTriviaDatabase(this);
+//            opentdb.setQuestionAttributes(OpenTriviaDatabase.CATEGORY_ANY,
+//                    OpenTriviaDatabase.DIFFICULTY_ANY,
+//                    OpenTriviaDatabase.TYPE_ANY);
+//            opentdb.setListener(this);
+//        } else {
+//            quizPool = new QuizPool(this);
+//        }
+//        Log.d(TAG, "calling pickQuestion from onStart");
+//        pickQuestion();
     }
 
     @Override
@@ -295,6 +320,9 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
         else if (me.getPoints() >= 2) {
             buttonHeal.setEnabled(true);
         }
+        currentLevelDisplay.setText("" + currentLevel);
+        int abilityPoints = me.getPoints();
+        abilityPointDisplay.setText("" + abilityPoints);
     }
 
     // Go through a sub-tree of views and call setEnabled on every leaf (views)
@@ -305,6 +333,73 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
             if (child instanceof ViewGroup) {
                 recursiveSetEnabled(enable, (ViewGroup) child);
             }
+        }
+    }
+
+    private void spawnCharacters(){
+        if (currentLevel == 0){
+            amountOfCurrentLevelMobs = 3;
+            mobsToKill = amountOfCurrentLevelMobs;
+        }
+        if (currentLevel == 1){
+            amountOfCurrentLevelMobs = 2;
+            mobsToKill = amountOfCurrentLevelMobs;
+        }
+        if (currentLevel == 2){
+            amountOfCurrentLevelMobs = 2;
+            mobsToKill = amountOfCurrentLevelMobs;
+        }
+        if (currentLevel == 3){
+            amountOfCurrentLevelMobs = 2;
+            mobsToKill = amountOfCurrentLevelMobs;
+        }
+        if (currentLevel == 4){
+            amountOfCurrentLevelMobs = 5;
+            mobsToKill = amountOfCurrentLevelMobs;
+        }
+
+        for (int i = 0; i < amountOfCurrentLevelMobs; i++) {
+            // Find a unique name
+            String characterName = null, playerName = null;
+            int num = 0; // Add a number when the name already exists
+            Player player = null;
+            do {
+                num++;
+                for (MobModel mob: MobPool.mobList) {
+                    // Skip unplayable characters
+                    if (!mob.isPlayable()) {
+                        continue;
+                    }
+                    characterName = mob.getName(PlayActivitySingle.this);
+                    playerName = characterName;
+                    if (num > 1) {
+                        playerName += " " + num;
+                    }
+                    player = mPlayersViewAdapter.getPlayerByName(playerName);
+                    if (player == null) {
+                        break;
+                    }
+                }
+            } while (player != null);
+            player = new Player(this);
+            player.setName(playerName);
+            if(currentLevel == 0){
+                player.setMob(characterName);
+            }
+
+            if(currentLevel == 1){
+                player.setMobsLevelOne(characterName);
+            }
+            if(currentLevel == 2){
+                player.setMobsLevelTwo(characterName);
+            }
+            if(currentLevel == 3){
+                player.setMobsLevelThree(characterName);
+            }
+            if(currentLevel == 4){
+                player.setMobsLevelFour(characterName);
+            }
+            mPlayersViewAdapter.add(player);
         }
     }
 
@@ -508,6 +603,12 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
                 player.setAnimation(Player.ANIMATION_ATTACK);
             } else if (player.getHealth() <= 0) {
                 player.setAnimation(Player.ANIMATION_DYING);
+                mobsKilledInLevel = mobsKilledInLevel + 1;
+                if(mobsKilledInLevel == mobsToKill){
+                    mobsKilledInLevel = 0;
+                    currentLevel = currentLevel + 1;
+                    finishGame();
+                }
             } else {
                 player.setAnimation(Player.ANIMATION_HURT);
             }
@@ -551,6 +652,7 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
     private void finishGame() {
         mMusic.stop();
         finish();
+        super.onStop();
     }
 
     /**
