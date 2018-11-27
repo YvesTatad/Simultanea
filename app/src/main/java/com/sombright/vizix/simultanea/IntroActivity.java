@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 
 public class IntroActivity extends AppCompatActivity /*implements MediaPlayer.OnCompletionListener*/ {
     private static final String TAG = "IntroActivity";
@@ -20,6 +22,13 @@ public class IntroActivity extends AppCompatActivity /*implements MediaPlayer.On
 //    };
 //    private int videoCounter;
     private ImageView scrollView;
+    private TextView script1;
+    private TextView script2;
+    private TextView script3;
+    private TextView script4;
+    private TextView script5;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +52,45 @@ public class IntroActivity extends AppCompatActivity /*implements MediaPlayer.On
         setContentView(R.layout.activity_intro);
         scrollView = findViewById(R.id.ScrollFrame);
         scrollView.setImageResource(R.drawable.scroll_1_2);
-        scrollView.setOnClickListener(new View.OnClickListener() {
+        script1 = findViewById(R.id.introText1);
+        script2 = findViewById(R.id.introText2);
+        script3 = findViewById(R.id.introText3);
+        script4 = findViewById(R.id.introText4);
+        script5 = findViewById(R.id.introText5);
+
+        script1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                script1.setVisibility(View.GONE);
+                script2.setVisibility(View.VISIBLE);
+            }
+        });
+
+        script2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                script2.setVisibility(View.GONE);
+                script3.setVisibility(View.VISIBLE);
+            }
+        });
+
+        script3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                script3.setVisibility(View.GONE);
+                script4.setVisibility(View.VISIBLE);
+            }
+        });
+
+        script4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                script4.setVisibility(View.GONE);
+                script5.setVisibility(View.VISIBLE);
+            }
+        });
+
+        script5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(IntroActivity.this, MainActivity.class);
@@ -51,7 +98,6 @@ public class IntroActivity extends AppCompatActivity /*implements MediaPlayer.On
                 startActivityIfNeeded(intent, 0);
             }
         });
-//        videoCounter = 0;
     }
 
 //    @Override

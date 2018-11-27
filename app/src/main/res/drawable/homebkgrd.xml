@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/background_lava" android:oneshot="false">
+    <item android:drawable="@drawable/background_lava00" android:duration="100" />
+    <item android:drawable="@drawable/background_lava01" android:duration="200" />
+    <item android:drawable="@drawable/background_lava02" android:duration="200" />
+    <item android:drawable="@drawable/background_lava03" android:duration="200" />
+    <item android:drawable="@drawable/background_lava04" android:duration="200" />
+    <item android:drawable="@drawable/background_lava05" android:duration="200" />
+    <item android:drawable="@drawable/background_lava06" android:duration="600" />
+
+</animation-list>

@@ -2,8 +2,7 @@
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/duel_attack" android:oneshot="false">
     <item android:drawable="@drawable/duel_attack1" android:duration="100" />
-    <item android:drawable="@drawable/duel_attack2" android:duration="100" />
     <item android:drawable="@drawable/duel_attack3" android:duration="200" />
-    <item android:drawable="@drawable/duel_attack4" android:duration="200" />
+    <item android:drawable="@drawable/duel_attack4" android:duration="600" />
 
 </animation-list>

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/slime_stand" android:oneshot="false">
-    <item android:drawable="@drawable/slime_hurt0" android:duration="200" />
     <item android:drawable="@drawable/slime_hurt1" android:duration="200" />
-    <item android:drawable="@drawable/slime_hurt2" android:duration="200" />
-    <item android:drawable="@drawable/slime_hurt3" android:duration="200" />
-    <item android:drawable="@drawable/slime_hurt4" android:duration="200" />
+    <item android:drawable="@drawable/slime_hurt2" android:duration="400" />
+    <item android:drawable="@drawable/slime_hurt3" android:duration="400" />
+    <item android:drawable="@drawable/slime_hurt4" android:duration="600" />
 
 </animation-list>
