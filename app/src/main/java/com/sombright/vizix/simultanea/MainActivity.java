@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout instructionView;
 
 
+    AnimationDrawable backgroundAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
             ActionBar actionBar = getActionBar();
             if (actionBar != null)
                 actionBar.hide();
+
         }
 
 
@@ -55,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate");
         setContentView(R.layout.activity_main);
-        mPrefs = new PreferencesProxy(this);
 
+        mPrefs = new PreferencesProxy(this);
 
         instructionTextView = findViewById(R.id.instruction_text);
         instructionView = findViewById(R.id.instruction_view);
@@ -77,6 +79,17 @@ public class MainActivity extends AppCompatActivity {
         playButton.setOnLongClickListener(playHoldListener);
         playButton.setOnTouchListener(playTouchListener);
 
+
+        RelativeLayout backgroundImage = (RelativeLayout) findViewById(R.id.background_lava);
+        backgroundImage.setBackgroundResource(R.drawable.background_lava);
+        backgroundAnimation  = (AnimationDrawable) backgroundImage.getBackground();
+
+        backgroundImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backgroundAnimation.start();
+            }
+        });
     }
 
     @Override
@@ -119,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
             if (actionBar != null)
                 actionBar.hide();
         }
+
     }
 
     @Override
@@ -132,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
             mediaPlayer = null;
         }
         super.onPause();
+
     }
 
     public void onClickCharacters(View view) {
