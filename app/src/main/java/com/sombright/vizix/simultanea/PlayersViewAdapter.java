@@ -68,11 +68,11 @@ class PlayersViewAdapter extends ArrayAdapter<Player> implements View.OnClickLis
         if (dead && !player.animationInProgress()) {
             Character character = player.getCharacter();
             if (character == null) {
-//                holder.imageButton.setImageResource(R.mipmap.ic_launcher);
-                Picasso.get().load(R.mipmap.ic_launcher).fit().centerCrop().into(holder.imageButton);
+                holder.imageButton.setImageResource(R.mipmap.ic_launcher);
+//                Picasso.get().load(R.mipmap.ic_launcher).fit().centerCrop().into(holder.imageButton);
             } else {
-//                holder.imageButton.setImageResource(character.getDeadImageId());
-                Picasso.get().load(character.getDeadImageId()).fit().centerCrop().into(holder.imageButton);
+                holder.imageButton.setImageResource(character.getDeadImageId());
+//                Picasso.get().load(character.getDeadImageId()).fit().centerCrop().into(holder.imageButton);
             }
         } else {
             AnimationDrawable animationDrawable = player.getAnimation();

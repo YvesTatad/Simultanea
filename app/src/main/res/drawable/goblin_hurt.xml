@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/goblin_stand" android:oneshot="false">
+android:id="@+id/goblin_hurt" android:oneshot="false">
 <item android:drawable="@drawable/goblin_hurt0" android:duration="200" />
 <item android:drawable="@drawable/goblin_hurt3" android:duration="300" />
 <item android:drawable="@drawable/goblin_hurt4" android:duration="400" />

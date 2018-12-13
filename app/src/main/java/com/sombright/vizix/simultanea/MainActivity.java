@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
     private MediaPlayer mediaPlayer;
@@ -28,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private Boolean isPlayButtonHeld = false;
     private TextView instructionTextView;
     private RelativeLayout instructionView;
+    private ImageView backgroundImage;
 
-
-    AnimationDrawable backgroundAnimation;
+//    AnimationDrawable backgroundAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
             ActionBar actionBar = getActionBar();
             if (actionBar != null)
                 actionBar.hide();
-
         }
 
 
@@ -57,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate");
         setContentView(R.layout.activity_main);
-
         mPrefs = new PreferencesProxy(this);
+
 
         instructionTextView = findViewById(R.id.instruction_text);
         instructionView = findViewById(R.id.instruction_view);
@@ -80,16 +81,8 @@ public class MainActivity extends AppCompatActivity {
         playButton.setOnTouchListener(playTouchListener);
 
 
-        RelativeLayout backgroundImage = (RelativeLayout) findViewById(R.id.background_lava);
-        backgroundImage.setBackgroundResource(R.drawable.background_lava);
-        backgroundAnimation  = (AnimationDrawable) backgroundImage.getBackground();
-
-        backgroundImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                backgroundAnimation.start();
-            }
-        });
+        backgroundImage = findViewById(R.id.backgroundImage);
+        Glide.with(this).load(R.drawable.backgroundlava1).into(backgroundImage);
     }
 
     @Override
@@ -101,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, IntroActivity.class);
             startActivity(intent);
         }
-
-
 
     }
 
@@ -132,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
             if (actionBar != null)
                 actionBar.hide();
         }
-
     }
 
     @Override
@@ -146,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
             mediaPlayer = null;
         }
         super.onPause();
-
     }
 
     public void onClickCharacters(View view) {

@@ -37,7 +37,7 @@ import static com.sombright.vizix.simultanea.MainActivity.TAG;
 
 public class PlayActivitySingle extends AppCompatActivity implements View.OnClickListener, PlayersViewAdapter.OnClickPlayerListener, OpenTriviaDatabase.Listener {
 
-    private int currentLevel = 1;
+    private int currentLevel = 2;
     private int amountOfCurrentLevelMobs = 0;
     private int mobsToKill = 0;
     private int mobsKilledInLevel = 0;
@@ -183,85 +183,85 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
         mMusic = MediaPlayer.create(this, R.raw.fight2);
         mMusic.setLooping(true);
 
-        //TODO -Yves: Replace this with a Switch Case instead of If/Else statements.
-        //TODO -Yves: For future reference, amountOfCurrentLevelMobs should count the amount of objects automatically in a Level Class and use that as its value.
 
-//        if (currentLevel == 0){
-//            amountOfCurrentLevelMobs = 3;
-//            mobsToKill = amountOfCurrentLevelMobs;
-//        }
-//        if (currentLevel == 1){
-//            amountOfCurrentLevelMobs = 2;
-//            mobsToKill = amountOfCurrentLevelMobs;
-//        }
-//        if (currentLevel == 2){
-//            amountOfCurrentLevelMobs = 2;
-//            mobsToKill = amountOfCurrentLevelMobs;
-//        }
-//        if (currentLevel == 3){
-//            amountOfCurrentLevelMobs = 2;
-//            mobsToKill = amountOfCurrentLevelMobs;
-//        }
-//        if (currentLevel == 4){
-//            amountOfCurrentLevelMobs = 5;
-//            mobsToKill = amountOfCurrentLevelMobs;
-//        }
-//
-//        for (int i = 0; i < amountOfCurrentLevelMobs; i++) {
-//            // Find a unique name
-//            String characterName = null, playerName = null;
-//            int num = 0; // Add a number when the name already exists
-//            Player player = null;
-//            do {
-//                num++;
-//                for (MobModel mob: MobPool.mobList) {
-//                    // Skip unplayable characters
-//                    if (!mob.isPlayable()) {
-//                        continue;
-//                    }
-//                    characterName = mob.getName(PlayActivitySingle.this);
-//                    playerName = characterName;
-//                    if (num > 1) {
-//                        playerName += " " + num;
-//                    }
-//                    player = mPlayersViewAdapter.getPlayerByName(playerName);
-//                    if (player == null) {
-//                        break;
-//                    }
-//                }
-//            } while (player != null);
-//            player = new Player(this);
-//            player.setName(playerName);
-//            if(currentLevel == 0){
-//                player.setMob(characterName);
-//            }
-//
-//            if(currentLevel == 1){
-//                player.setMobsLevelOne(characterName);
-//            }
-//            if(currentLevel == 2){
-//                player.setMobsLevelTwo(characterName);
-//            }
-//            if(currentLevel == 3){
-//                player.setMobsLevelThree(characterName);
-//            }
-//            if(currentLevel == 4){
-//                player.setMobsLevelFour(characterName);
-//            }
-//            mPlayersViewAdapter.add(player);
-//        }
-//
-//        if (mPrefs.shouldUseOpenTriviaDatabase()) {
-//            opentdb = new OpenTriviaDatabase(this);
-//            opentdb.setQuestionAttributes(OpenTriviaDatabase.CATEGORY_ANY,
-//                    OpenTriviaDatabase.DIFFICULTY_ANY,
-//                    OpenTriviaDatabase.TYPE_ANY);
-//            opentdb.setListener(this);
-//        } else {
-//            quizPool = new QuizPool(this);
-//        }
-//        Log.d(TAG, "calling pickQuestion from onStart");
-//        pickQuestion();
+    //region Reference old code
+    //        if (currentLevel == 0){
+    //            amountOfCurrentLevelMobs = 3;
+    //            mobsToKill = amountOfCurrentLevelMobs;
+    //        }
+    //        if (currentLevel == 1){
+    //            amountOfCurrentLevelMobs = 2;
+    //            mobsToKill = amountOfCurrentLevelMobs;
+    //        }
+    //        if (currentLevel == 2){
+    //            amountOfCurrentLevelMobs = 2;
+    //            mobsToKill = amountOfCurrentLevelMobs;
+    //        }
+    //        if (currentLevel == 3){
+    //            amountOfCurrentLevelMobs = 2;
+    //            mobsToKill = amountOfCurrentLevelMobs;
+    //        }
+    //        if (currentLevel == 4){
+    //            amountOfCurrentLevelMobs = 5;
+    //            mobsToKill = amountOfCurrentLevelMobs;
+    //        }
+    //
+    //        for (int i = 0; i < amountOfCurrentLevelMobs; i++) {
+    //            // Find a unique name
+    //            String characterName = null, playerName = null;
+    //            int num = 0; // Add a number when the name already exists
+    //            Player player = null;
+    //            do {
+    //                num++;
+    //                for (MobModel mob: MobPool.mobList) {
+    //                    // Skip unplayable characters
+    //                    if (!mob.isPlayable()) {
+    //                        continue;
+    //                    }
+    //                    characterName = mob.getName(PlayActivitySingle.this);
+    //                    playerName = characterName;
+    //                    if (num > 1) {
+    //                        playerName += " " + num;
+    //                    }
+    //                    player = mPlayersViewAdapter.getPlayerByName(playerName);
+    //                    if (player == null) {
+    //                        break;
+    //                    }
+    //                }
+    //            } while (player != null);
+    //            player = new Player(this);
+    //            player.setName(playerName);
+    //            if(currentLevel == 0){
+    //                player.setMob(characterName);
+    //            }
+    //
+    //            if(currentLevel == 1){
+    //                player.setMobsLevelOne(characterName);
+    //            }
+    //            if(currentLevel == 2){
+    //                player.setMobsLevelTwo(characterName);
+    //            }
+    //            if(currentLevel == 3){
+    //                player.setMobsLevelThree(characterName);
+    //            }
+    //            if(currentLevel == 4){
+    //                player.setMobsLevelFour(characterName);
+    //            }
+    //            mPlayersViewAdapter.add(player);
+    //        }
+    //
+    //        if (mPrefs.shouldUseOpenTriviaDatabase()) {
+    //            opentdb = new OpenTriviaDatabase(this);
+    //            opentdb.setQuestionAttributes(OpenTriviaDatabase.CATEGORY_ANY,
+    //                    OpenTriviaDatabase.DIFFICULTY_ANY,
+    //                    OpenTriviaDatabase.TYPE_ANY);
+    //            opentdb.setListener(this);
+    //        } else {
+    //            quizPool = new QuizPool(this);
+    //        }
+    //        Log.d(TAG, "calling pickQuestion from onStart");
+    //        pickQuestion();
+    //endregion
     }
 
     @Override
@@ -269,6 +269,7 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
         super.onResume();
         Log.d(TAG, "onResume");
         mMusic.start();
+//        mQuestionLifeSpanCounter.start();
     }
 
     @Override
@@ -337,6 +338,8 @@ public class PlayActivitySingle extends AppCompatActivity implements View.OnClic
     }
 
     private void spawnCharacters(){
+        //TODO -Yves: Replace this with a Switch Case instead of If/Else statements.
+        //TODO -Yves: For future reference, amountOfCurrentLevelMobs should count the amount of objects automatically in a Level Class and use that as its value.
         if (currentLevel == 0){
             amountOfCurrentLevelMobs = 3;
             mobsToKill = amountOfCurrentLevelMobs;

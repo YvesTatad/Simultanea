@@ -13,6 +13,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 
 public class IntroActivity extends AppCompatActivity /*implements MediaPlayer.OnCompletionListener*/ {
     private static final String TAG = "IntroActivity";
@@ -21,6 +23,7 @@ public class IntroActivity extends AppCompatActivity /*implements MediaPlayer.On
 //            R.raw.pyre,
 //    };
 //    private int videoCounter;
+    private ImageView introBG;
     private ImageView scrollView;
     private TextView script1;
     private TextView script2;
@@ -31,6 +34,7 @@ public class IntroActivity extends AppCompatActivity /*implements MediaPlayer.On
     private TextView script7;
     private TextView script8;
     private TextView script9;
+    private TextView skipTextView;
 
 
 
@@ -56,6 +60,8 @@ public class IntroActivity extends AppCompatActivity /*implements MediaPlayer.On
         setContentView(R.layout.activity_intro);
         scrollView = findViewById(R.id.ScrollFrame);
         scrollView.setImageResource(R.drawable.scroll_1_2);
+        introBG = findViewById(R.id.IntroBackground);
+        Glide.with(this).load(R.drawable.nightskybackground).into(introBG);
         script1 = findViewById(R.id.introText1);
         script2 = findViewById(R.id.introText2);
         script3 = findViewById(R.id.introText3);
@@ -65,6 +71,7 @@ public class IntroActivity extends AppCompatActivity /*implements MediaPlayer.On
         script7 = findViewById(R.id.introText7);
         script8 = findViewById(R.id.introText8);
         script9 = findViewById(R.id.introText9);
+        skipTextView = findViewById(R.id.skipText);
 
         script1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +143,17 @@ public class IntroActivity extends AppCompatActivity /*implements MediaPlayer.On
                 Intent intent = new Intent(IntroActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivityIfNeeded(intent, 0);
+                finish();
+            }
+        });
+
+        skipTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(IntroActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivityIfNeeded(intent, 0);
+                finish();
             }
         });
     }

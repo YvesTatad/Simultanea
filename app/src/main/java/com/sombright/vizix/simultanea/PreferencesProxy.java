@@ -25,6 +25,17 @@ class PreferencesProxy {
     private static final boolean DEFAULT_USE_OPEN_TRIVIA_DB = false;
 
     private Context mContext;
+    private int currentGameLevel = 0;
+
+
+    public int getCurrentGameLevel() {
+        return currentGameLevel;
+    }
+
+    public void setCurrentGameLevel(int currentGameLevel) {
+        this.currentGameLevel = currentGameLevel;
+    }
+
     private SharedPreferences mPrefs;
 
     PreferencesProxy(Context context) {

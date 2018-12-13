@@ -161,7 +161,7 @@ public class Player {
         }
         if (mMob == null) {
             Log.e(TAG, "Unknown mob " + name + ". Using default instead.");
-            mMob = MobPool.getDefaultMob();
+            mMob = LevelOne.getDefaultMobLevelOne();
         }
     }
 
@@ -182,7 +182,7 @@ public class Player {
         }
         if (mMob == null) {
             Log.e(TAG, "Unknown mob " + name + ". Using default instead.");
-            mMob = MobPool.getDefaultMob();
+            mMob = LevelTwo.getDefaultMobLevelTwo();
         }
     }
 
@@ -203,7 +203,7 @@ public class Player {
         }
         if (mMob == null) {
             Log.e(TAG, "Unknown mob " + name + ". Using default instead.");
-            mMob = MobPool.getDefaultMob();
+            mMob = LevelThree.getDefaultMobLevelThree();
         }
     }
 
@@ -224,7 +224,7 @@ public class Player {
         }
         if (mMob == null) {
             Log.e(TAG, "Unknown mob " + name + ". Using default instead.");
-            mMob = MobPool.getDefaultMob();
+            mMob = LevelFour.getDefaultMobLevelFour();
         }
     }
 
