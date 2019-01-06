@@ -73,9 +73,24 @@ public class PlayActivityMulti extends ConnectionsActivity implements View.OnCli
     private final static int STATE_WAITING_FOR_QUESTION = 2;
     private final static int STATE_WAITING_FOR_ANSWER = 3;
     private CountDownTimer mQuestionLifeSpanCounter;
+    private ProgressBar Counter;
     private final static int MESSAGE_DURATION_MS = 1500;
     private final static int LONG_MESSAGE_DURATION_MS = 3000;
     private final static int MAX_PLAYERS = 10;
+    private CountDownTimer getmQuestionLifeSpanCounter = new CountDownTimer(10000, 1000) { // 1000 = 1 sec
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            Log.d(TAG, "mQuestionLifeSpanCounter " + millisUntilFinished/1000);
+            int progress = (int) (millisUntilFinished/100);
+            Counter.setProgress(progress);
+        }
+
+        @Override
+        public void onFinish() {
+            pickQuestion();
+        }
+    };
     TextView questionText;
     private Random random = new Random();
     private LinearLayout answersLayout;

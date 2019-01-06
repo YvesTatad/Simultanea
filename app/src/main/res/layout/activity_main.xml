@@ -9,6 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:id="@+id/background_lava"
     tools:context=".MainActivity">
 
     <ImageView
@@ -67,21 +68,14 @@
         android:layout_weight="0"
         android:orientation="vertical">
 
+
+
         <Button
             android:id="@+id/PLAY"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onClickPlay"
-            android:text="Play" />
-
-        <Button
-            android:id="@+id/PLAY_MULTI"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onClickPlay"
-            android:text="Play Multi-Player"
-            android:visibility="gone"/>
-
+            android:text="PLAY"/>
 
         <Button
             android:id="@+id/CHARACTERS"

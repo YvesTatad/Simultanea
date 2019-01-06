@@ -2,6 +2,6 @@
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/bluepanda_attack" android:oneshot="false">
     <item android:drawable="@drawable/bluepanda1" android:duration="100" />
-    <item android:drawable="@drawable/bluepanda2" android:duration="100" />
+    <item android:drawable="@drawable/bluepanda2" android:duration="600" />
 
 </animation-list>

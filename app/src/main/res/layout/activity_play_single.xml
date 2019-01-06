@@ -213,27 +213,33 @@
 
             <Button
                 android:id="@+id/buttonQuestion"
-                android:layout_width="0dp"
+                android:layout_width="150dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:onClick="showQuestion"
-                android:text="@string/question" />
+                android:background="@drawable/qbutton"
+
+                />
 
             <Button
                 android:id="@+id/buttonAnswers"
-                android:layout_width="0dp"
+                android:layout_width="150dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:onClick="showAnswers"
-                android:text="@string/answers" />
+                android:background="@drawable/abutton"
+
+
+                />
 
             <Button
                 android:id="@+id/buttonBattle"
-                android:layout_width="0dp"
+                android:layout_width="150dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:onClick="showBattleOptions"
-                android:text="@string/battle" />
+                android:background="@drawable/attackb"
+                />
 
         </LinearLayout>
 

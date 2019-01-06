@@ -35,12 +35,10 @@
             android:text="Name" />
 
         <ProgressBar
-            android:id="@+id/localPlayerHealth"
+            android:id="@+id/Counter"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
             android:progress="100" />
 
     </LinearLayout>
@@ -49,25 +47,26 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/otherPlayersLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="372dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:numColumns="4"
         app:layout_constraintBottom_toTopOf="@id/contentsLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/localPlayerLayout" />
 
-    <FrameLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/contentsLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
+        android:barrierAllowsGoneWidgets="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/controlsLayout"
@@ -75,74 +74,69 @@
 
         <TextView
             android:id="@+id/questionTextView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="#cc000000"
             android:gravity="center"
             android:textSize="12sp" />
 
-        <LinearLayout
-            android:id="@+id/answersLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone">
 
-            <Button
-                android:id="@+id/answer4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center" />
+        <Button
+            android:id="@+id/answer4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
 
-            <Button
-                android:id="@+id/answer3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center" />
+        <Button
+            android:id="@+id/answer3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
 
-            <Button
-                android:id="@+id/answer2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center" />
+        <Button
+            android:id="@+id/answer2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
 
-            <Button
-                android:id="@+id/answer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
 
-        <LinearLayout
-            android:id="@+id/battleOptionsLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:onClick="showBattleOptions"
-            android:orientation="vertical"
-            android:visibility="gone">
 
-            <Button
-                android:id="@+id/buttonHeal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="buttonHealClicked"
-                android:text="@string/heal" />
+        <Button
+            android:id="@+id/buttonHeal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="buttonHealClicked"
+            android:text="@string/heal" />
 
-            <Button
-                android:id="@+id/buttonAttack"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="buttonAttackClicked"
-                android:text="@string/attack" />
+        <Button
+            android:id="@+id/buttonAttack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="buttonAttackClicked"
+            android:text="@string/attack" />
 
-            <Button
-                android:id="@+id/buttonDefend"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="buttonDefendClicked"
-                android:text="@string/defend" />
-        </LinearLayout>
-    </FrameLayout>
+        <Button
+            android:id="@+id/buttonDefend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="buttonDefendClicked"
+            android:text="@string/defend" />
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="351dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:layout_editor_absoluteY="48dp" />
+    </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/controlsLayout"
@@ -157,26 +151,29 @@
 
         <Button
             android:id="@+id/buttonQuestion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_weight="1"
+            android:layout_height="150dp"
             android:onClick="showQuestion"
-            android:text="@string/question"
+            android:background="@drawable/qbutton"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/buttonAnswers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_weight="1"
+            android:layout_height="150dp"
             android:onClick="showAnswers"
-            android:text="@string/answers"
+            android:background="@drawable/abutton"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/buttonBattle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_weight="1"
+            android:layout_height="150dp"
             android:onClick="showBattleOptions"
-            android:text="@string/battle"
+            android:background="@drawable/attackb"
             android:visibility="gone" />
     </LinearLayout>
 
@@ -186,13 +183,13 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:visibility="invisible"
-        tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/otherPlayersLayout"
         app:layout_constraintEnd_toStartOf="@+id/rightAnimation"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/localPlayerLayout"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:srcCompat="@drawable/pump" />
+        app:srcCompat="@drawable/pump"
+        tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/rightAnimation"
@@ -200,11 +197,11 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:visibility="invisible"
-        tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/otherPlayersLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/leftAnimation"
         app:layout_constraintTop_toBottomOf="@+id/localPlayerLayout"
-        app:srcCompat="@drawable/war" />
+        app:srcCompat="@drawable/war"
+        tools:visibility="visible" />
 
 </android.support.constraint.ConstraintLayout>

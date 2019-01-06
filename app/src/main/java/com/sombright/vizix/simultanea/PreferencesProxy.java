@@ -116,4 +116,5 @@ class PreferencesProxy {
         editor.putInt(PREF_HIGH_SCORE, points);
         editor.apply();
     }
+
 }
